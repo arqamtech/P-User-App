@@ -1,10 +1,20 @@
 <ion-header>
   <ion-navbar color="primary" >
     <ion-title>Cart</ion-title>
+    <ion-buttons end>
+      <button ion-button clear>
+        {{cartVal}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+
+  <ion-item *ngFor="let i of items" >
+    {{i.Name}}
+  </ion-item>
+
 
 </ion-content>

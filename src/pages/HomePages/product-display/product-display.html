@@ -5,15 +5,29 @@
 
 
 <ion-content padding>
-  <ion-card>
-    <img [src]="prod.ImageUrl" />
-    <ion-card-content>
-      <ion-card-title>
-        {{prod.Name}}
-      </ion-card-title>
-      <p>
-      </p>
-    </ion-card-content>
-  </ion-card>
+  <div class="image" text-center>
+    <img [src]="prod.ImageUrl" ion-text class="image" />
+  </div>
+
+
+  <p ion-text ion-card-title class="name"> {{prod.Name}}</p>
+
+
+  <ion-footer>
+    <button ion-button *ngIf="!inC" block (click)="atCart()">
+      <ion-icon name="md-cart" margin-right></ion-icon>
+      Add to Cart
+    </button>
+
+
+    <button ion-button block *ngIf="inC" (click)="gtCart()">
+      Go to Cart
+      <ion-icon name="md-arrow-forward" margin-left></ion-icon>
+    </button>
+
+  </ion-footer>
+
+
+
 
 </ion-content>

@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the CartPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -14,12 +9,41 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'cart.html',
 })
 export class CartPage {
+  items : Array<any> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  cartRef = this.db.list(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products`)
+  cartValueRef = this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`)
+
+
+  cartVal : number = 0;
+
+  constructor(
+  public navCtrl: NavController, 
+  public db : AngularFireDatabase,
+  public navParams: NavParams
+  ) {
+    this.getCart();
+    this.getCartValue();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CartPage');
+  getCartValue(){
+    this.cartValueRef.snapshotChanges().subscribe(snip=>{
+      this.cartVal = +snip.payload.val();
+    })
   }
 
+
+  getCart(){
+    this.cartRef.snapshotChanges().subscribe(snap=>{
+      this.items = [];
+      snap.forEach(snip=>{
+        let temp : any ;
+        this.db.object(`Products/${snip.key}`).snapshotChanges().subscribe(isnap=>{
+          temp = isnap.payload.val();
+          temp.Quantity = snip.payload.val();
+          this.items.push(temp);
+        })
+      })
+    })
+  }
 }

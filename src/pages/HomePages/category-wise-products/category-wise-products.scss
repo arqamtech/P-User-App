@@ -3,5 +3,16 @@ page-category-wise-products {
         border: 1px solid map-get($colors,primary);
         height: 100px;
     }
-    
+    .prodCard{
+        height: 200px;
+    }    
+    .imgContainer{
+        height: 170px;        
+    }
+
+    .cardImg{
+        height: 100%;
+        width: auto;
+        margin: auto;
+    }
 }
