@@ -6,5 +6,18 @@
 
 
 <ion-content padding>
+  <div class="mainCard">
+
+    <ion-card *ngFor="let q of faqs">
+      <ion-navbar color="primary">
+        <ion-title>{{q.Question}}</ion-title>
+      </ion-navbar>
+      <ion-card-content>
+        <h2>{{q.Answer}}</h2>
+      </ion-card-content>
+    </ion-card>
+
+
+  </div>
 
 </ion-content>

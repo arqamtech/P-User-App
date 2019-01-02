@@ -3,7 +3,6 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/Supp/tabs/tabs';
-import { LoginPage } from '../pages/Auths/login/login';
 import { LoginSplashPage } from '../pages/Auths/login-splash/login-splash';
 import * as firebase from 'firebase';
 import { SignUpPage } from '../pages/Auths/sign-up/sign-up';

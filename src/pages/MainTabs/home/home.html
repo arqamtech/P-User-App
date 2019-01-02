@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary" >
+  <ion-navbar color="primary">
     <ion-title>Posters</ion-title>
   </ion-navbar>
 </ion-header>
@@ -7,11 +7,20 @@
 <ion-content>
 
   <div class="wrapper">
-    <ion-slides   *ngIf="banners && banners.length" autoplay="3000" loop="true" speed="500" pager="true" >
+    <ion-slides *ngIf="banners && banners.length" autoplay="3000" loop="true" speed="500" pager="true">
       <ion-slide *ngFor="let b of banners">
-        <img [src]="b.Image"  class="bannerImg" />
+        <img [src]="b.Image" class="bannerImg" />
       </ion-slide>
     </ion-slides>
   </div>
-  
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="catCol" (click)="showProducts(c)" text-center *ngFor="let c of cats" col-4>
+        {{c.Name}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 </ion-content>

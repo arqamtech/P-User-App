@@ -12,15 +12,17 @@ import { HomePage } from '../pages/MainTabs/home/home';
 import { TabsPage } from '../pages/Supp/tabs/tabs';
 import { ExplorePage } from '../pages/MainTabs/explore/explore';
 import { NavigatePage } from '../pages/MainTabs/navigate/navigate';
-import { NotificationsPage } from '../pages/MainTabs/notifications/notifications';
 import { ProfilePage } from '../pages/MainTabs/profile/profile';
 import { LoginPage } from '../pages/Auths/login/login';
 import { LoginSplashPage } from '../pages/Auths/login-splash/login-splash';
 import { SignUpPage } from '../pages/Auths/sign-up/sign-up';
 import { LoaderPage } from '../pages/Supp/loader/loader';
-import { YourOrdersPage } from '../pages/ProfilePages/your-orders/your-orders';
 import { ContactUsPage } from '../pages/ProfilePages/contact-us/contact-us';
 import { FaqSPage } from '../pages/ProfilePages/faq-s/faq-s';
+import { CartPage } from '../pages/MainTabs/cart/cart';
+import { YourOrdersPage } from '../pages/ProfilePages/your-orders/your-orders';
+import { CategoryWiseProductsPage } from '../pages/HomePages/category-wise-products/category-wise-products';
+import { ProductDisplayPage } from '../pages/HomePages/product-display/product-display';
 
 
 export const firebaseCred = {
@@ -41,7 +43,6 @@ firebase.initializeApp(firebaseCred);
     TabsPage,
     ExplorePage,
     NavigatePage,
-    NotificationsPage,
     ProfilePage,
     LoginPage,
     LoginSplashPage,
@@ -50,6 +51,9 @@ firebase.initializeApp(firebaseCred);
     YourOrdersPage,
     ContactUsPage,
     FaqSPage,
+    CartPage,
+    CategoryWiseProductsPage,
+    ProductDisplayPage,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,6 @@ firebase.initializeApp(firebaseCred);
     TabsPage,
     ExplorePage,
     NavigatePage,
-    NotificationsPage,
     ProfilePage,
     LoginPage,
     LoginSplashPage,
@@ -76,6 +79,9 @@ firebase.initializeApp(firebaseCred);
     YourOrdersPage,
     ContactUsPage,
     FaqSPage,
+    CartPage,
+    CategoryWiseProductsPage,
+    ProductDisplayPage,
   ],
   providers: [
     StatusBar,
