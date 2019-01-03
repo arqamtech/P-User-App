@@ -5,6 +5,29 @@
 </ion-header>
 
 
-<ion-content padding>
+  <ion-content padding>
+    <div *ngIf="orders.length">
+      <ion-item *ngFor="let i of orders">
+        <ion-card-title (click)="gtProductDisplay(i)" >{{i.Name}}</ion-card-title>
+        <ion-item no-lines>
+          <ion-avatar item-start>
+            <img [src]="i.ImageUrl" class="" />
+          </ion-avatar>
+          <div item-end>
+            {{i.Status}}
+          </div>
+        </ion-item>
+        <p float-left >Nos.{{i.Quantity}}</p>
+        <p float-right >Rs.{{i.Amount}}</p>
+      </ion-item>
+    </div>
+    <ion-card *ngIf="!orders.length">
+      <ion-card-content>
+        <ion-card-title>No Orders</ion-card-title>
+      </ion-card-content>
+    </ion-card>
 
-</ion-content>
+
+
+
+  </ion-content>

@@ -1,10 +1,15 @@
 <ion-header>
-  <ion-navbar color="primary" >
+  <ion-navbar color="primary">
     <ion-title>Explore</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content >
+
+  <!-- <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+  </ion-searchbar> -->
+  <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel">
+  </ion-searchbar>
 
 </ion-content>

@@ -5,19 +5,19 @@
 </ion-header>
 
 
-<ion-content >
+<ion-content>
 
   <ion-grid>
     <ion-row>
 
 
 
-      <ion-col  (click)="displyProd(p)" text-center *ngFor="let p of prods" col-6>
-        <ion-card class="prodCard" >
+      <ion-col padding-bottom (click)="displyProd(p)" text-center *ngFor="let p of prods" col-6>
+        <ion-card  class="prodCard">
           <div class="imgContainer">
             <img [src]="p.ImageUrl" class="cardImg" margin-bottom />
-            </div>
-            <p  > {{p.Name}}</p>
+          </div>
+          <p margin-top> {{p.Name}}</p>
         </ion-card>
 
 

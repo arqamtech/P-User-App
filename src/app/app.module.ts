@@ -23,6 +23,8 @@ import { CartPage } from '../pages/MainTabs/cart/cart';
 import { YourOrdersPage } from '../pages/ProfilePages/your-orders/your-orders';
 import { CategoryWiseProductsPage } from '../pages/HomePages/category-wise-products/category-wise-products';
 import { ProductDisplayPage } from '../pages/HomePages/product-display/product-display';
+import { PaymentGatewayPage } from '../pages/PaymentPages/payment-gateway/payment-gateway';
+import { PaymentConfirmPage } from '../pages/PaymentPages/payment-confirm/payment-confirm';
 
 
 export const firebaseCred = {
@@ -54,6 +56,8 @@ firebase.initializeApp(firebaseCred);
     CartPage,
     CategoryWiseProductsPage,
     ProductDisplayPage,
+    PaymentGatewayPage,
+    PaymentConfirmPage,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,8 @@ firebase.initializeApp(firebaseCred);
     CartPage,
     CategoryWiseProductsPage,
     ProductDisplayPage,
+    PaymentGatewayPage,
+    PaymentConfirmPage,
   ],
   providers: [
     StatusBar,

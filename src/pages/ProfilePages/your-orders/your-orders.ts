@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the YourOrdersPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase';
+import { ProductDisplayPage } from '../../HomePages/product-display/product-display';
 
 @IonicPage()
 @Component({
@@ -15,11 +11,43 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class YourOrdersPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  orders : Array<any> = [];
+
+  constructor(
+  public navCtrl: NavController, 
+  public db : AngularFireDatabase,
+  public navParams: NavParams
+  ) {
+    this.getOrders();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad YourOrdersPage');
+
+  
+  getOrders(){
+    this.db.list(`User Data/User Orders/${firebase.auth().currentUser.uid}`).snapshotChanges().subscribe(snap=>{
+      this.orders = [];
+      snap.forEach(snip=>{
+        this.db.object(`Orders/${snip.key}`).snapshotChanges().subscribe(oSnap=>{
+          let temp : any;
+          let veryTemp : any = oSnap.payload.val();
+          this.db.object(`Products/${veryTemp.ProductKey}`).snapshotChanges().subscribe(pSnap=>{
+            temp = pSnap.payload.val();
+            temp.key = pSnap.key;
+            temp.Amount = veryTemp.Amount;
+            temp.Quantity = veryTemp.Quantity;
+            temp.Status = veryTemp.Status;
+            temp.TimeStamp = veryTemp.TimeStamp;
+            this.orders.push(temp);
+            console.log(temp);
+          })
+        })
+      })
+    })
   }
+
+  gtProductDisplay(p){
+    this.navCtrl.push(ProductDisplayPage),{prod : p};
+  }
+
 
 }

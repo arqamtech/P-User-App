@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary" >
+  <ion-navbar color="primary">
     <ion-title>Cart</ion-title>
     <ion-buttons end>
       <button ion-button clear>
@@ -11,10 +11,31 @@
 
 
 <ion-content padding>
+  <div *ngIf="items.length">
+    <ion-item *ngFor="let i of items">
+      <ion-card-title>{{i.Name}}
+        <ion-icon name="ios-trash" color="primary" (click)="delItem(i)" float-right></ion-icon>
 
-  <ion-item *ngFor="let i of items" >
-    {{i.Name}}
-  </ion-item>
+      </ion-card-title>
+      <ion-item no-lines>
+        <ion-avatar item-start>
+          <img [src]="i.ImageUrl" class="" />
+        </ion-avatar>
+        <div item-end>
+          <ion-icon name="ios-remove-circle-outline" margin-right (click)="rmQuan(i)"></ion-icon>
+          {{i.Quantity}}
+          <ion-icon name="ios-add-circle-outline" margin-left (click)="addQuan(i)"></ion-icon>
+        </div>
+      </ion-item>
+      <button ion-button float-right round (click)="placeOrder(i)">Place Order</button>
+    </ion-item>
+  </div>
+  <ion-card *ngIf="!items.length" >
+    <ion-card-content>
+      <img src="assets/imgs/empty-cart.png" class="emptyCart" />
+    </ion-card-content>
+  </ion-card>
+
 
 
 </ion-content>

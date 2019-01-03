@@ -10,8 +10,8 @@
   </div>
 
 
-  <p ion-text ion-card-title class="name"> {{prod.Name}}</p>
-
+  <ion-card-title> {{prod.Name}}</ion-card-title>
+  <p ion-text>Rs. {{prod.Price}}</p>
 
   <ion-footer>
     <button ion-button *ngIf="!inC" block (click)="atCart()">
