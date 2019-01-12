@@ -15,9 +15,17 @@ export class PaymentConfirmPage {
 
   prod = this.navParams.get("prod");
 
+  disCom : number;
+  disTrans : number;
+  disGst : number;
+
+
   amount : number = 0;
   cartValueRef = this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`);
   cartVal : number = 0;
+
+  comm : number;
+  fAmount : number = 0;
   constructor(
   public navCtrl: NavController, 
   public db : AngularFireDatabase,
@@ -26,8 +34,12 @@ export class PaymentConfirmPage {
     console.log(this.prod);
     this.amount = parseInt(this.prod.Quantity) * parseInt(this.prod.Price);
     this.getCartValue();
+    this.getComm();
   }
 
+// Commission 5%
+// Online transaction 3% 
+// GST on product 18%
 
   getCartValue() {
     this.cartValueRef.snapshotChanges().subscribe(snip => {
@@ -35,12 +47,24 @@ export class PaymentConfirmPage {
     })
   }
 
-
+  getComm(){
+    this.db.object(`Admin Data/Comission`).snapshotChanges().subscribe(snap=>{
+      let tt = snap.payload.val();
+      this.comm = +tt;
+      this.disCom = (this.comm * this.amount)/100;
+      this.disTrans = (3 * this.amount)/100;
+      this.disGst = (18 * this.amount)/100;
+      let xtra : number = ((this.comm+21)/100)+1;
+      this.fAmount = this.amount*xtra;
+    })
+  }
 
   pay(){
 
+
     let newCartVal : number =  this.cartVal-this.amount;
-    
+
+
     this.db.list(`Orders`).push({
       ProductKey : this.prod.key,
       Quantity : this.prod.Quantity,
