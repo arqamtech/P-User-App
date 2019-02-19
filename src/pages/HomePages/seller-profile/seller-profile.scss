@@ -1,0 +1,29 @@
+page-seller-profile {
+    .bannerHolder{
+        height: 150px;
+        width: 100%;
+    }
+.bannerImg{
+    height: 100%;
+    width: 100%;;
+    margin: auto;
+}
+
+.catCol{
+    border: 1px solid map-get($colors,primary);
+    height: 100px;
+}
+.prodCard{
+    height: 220px;
+}    
+.imgContainer{
+    height: 170px;        
+}
+
+.cardImg{
+    height: 100%;
+    width: auto;
+    margin: auto;
+}
+
+}

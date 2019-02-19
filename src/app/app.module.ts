@@ -25,6 +25,7 @@ import { CategoryWiseProductsPage } from '../pages/HomePages/category-wise-produ
 import { ProductDisplayPage } from '../pages/HomePages/product-display/product-display';
 import { PaymentGatewayPage } from '../pages/PaymentPages/payment-gateway/payment-gateway';
 import { PaymentConfirmPage } from '../pages/PaymentPages/payment-confirm/payment-confirm';
+import { SellerProfilePage } from '../pages/HomePages/seller-profile/seller-profile';
 
 
 export const firebaseCred = {
@@ -58,6 +59,7 @@ firebase.initializeApp(firebaseCred);
     ProductDisplayPage,
     PaymentGatewayPage,
     PaymentConfirmPage,
+    SellerProfilePage,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +89,7 @@ firebase.initializeApp(firebaseCred);
     CategoryWiseProductsPage,
     ProductDisplayPage,
     PaymentGatewayPage,
+    SellerProfilePage,
     PaymentConfirmPage,
   ],
   providers: [

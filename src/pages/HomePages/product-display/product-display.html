@@ -12,6 +12,17 @@
 
   <ion-card-title> {{prod.Name}}</ion-card-title>
   <p ion-text>Rs. {{prod.Price}}</p>
+  
+  
+  <ion-item no-lines (click)="gtSellerPage()" >
+    <p  item-start >Seller</p>
+    <p ion-text item-end color="primary" >{{prod.StoreName}}</p>
+  </ion-item>
+
+
+
+
+
 
   <ion-footer>
     <button ion-button *ngIf="!inC" block (click)="atCart()">

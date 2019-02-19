@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase';
 import { CartPage } from '../../MainTabs/cart/cart';
+import { SellerProfilePage } from '../seller-profile/seller-profile';
 
 
 
@@ -18,7 +19,7 @@ export class ProductDisplayPage {
 
   cartVal: number = 0;
 
-  prodQuan  :number = 0;
+  prodQuan: number = 0;
 
   cartRef = firebase.database().ref("User Data/User Cart").child(firebase.auth().currentUser.uid).child("CartValue");
 
@@ -27,9 +28,11 @@ export class ProductDisplayPage {
   constructor(
     public navCtrl: NavController,
     public db: AngularFireDatabase,
-    public loadingCtrl : LoadingController,
+    public loadingCtrl: LoadingController,
     public navParams: NavParams
   ) {
+    console.log(this.prod);
+
     this.getCartValue();
     this.getProdQuantity();
   }
@@ -37,7 +40,7 @@ export class ProductDisplayPage {
   getCartValue() {
     this.cartRef.once("value", snip => {
       if (snip.exists()) {
-        this.cartVal =snip.val();
+        this.cartVal = snip.val();
       } else {
         this.cartRef.set(0);
       }
@@ -47,7 +50,7 @@ export class ProductDisplayPage {
   getProdQuantity() {
     this.userProdRef.once("value", snip => {
       if (snip.exists()) {
-        this.prodQuan =snip.val();
+        this.prodQuan = snip.val();
       } else {
       }
     })
@@ -58,16 +61,16 @@ export class ProductDisplayPage {
     let loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
-  
+
     loading.present();
     console.log(this.prodQuan);
-    let tempi  : number = +this.prodQuan +1;
+    let tempi: number = +this.prodQuan + 1;
 
     this.userProdRef.set(tempi).then(() => {
-      let temp  : number = +this.cartVal + parseInt(this.prod.Price);
-      this.cartRef.set(temp).then(()=>{
+      let temp: number = +this.cartVal + parseInt(this.prod.Price);
+      this.cartRef.set(temp).then(() => {
         this.inC = true;
-      }).then(()=>{
+      }).then(() => {
         loading.dismiss();
       })
     })
@@ -79,5 +82,7 @@ export class ProductDisplayPage {
     this.navCtrl.push(CartPage);
   }
 
-
+  gtSellerPage() {
+    this.navCtrl.push(SellerProfilePage,{seller : this.prod})
+  }
 }

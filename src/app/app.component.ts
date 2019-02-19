@@ -8,7 +8,6 @@ import * as firebase from 'firebase';
 import { SignUpPage } from '../pages/Auths/sign-up/sign-up';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { LoaderPage } from '../pages/Supp/loader/loader';
-import { YourOrdersPage } from '../pages/ProfilePages/your-orders/your-orders';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,12 +15,12 @@ import { YourOrdersPage } from '../pages/ProfilePages/your-orders/your-orders';
 export class MyApp {
   rootPage:any = LoaderPage;
 
-  constructor(
-  public platform: Platform, 
-  public statusBar: StatusBar, 
-  public db : AngularFireDatabase,
-  public splashScreen: SplashScreen
-  ) {
+    constructor(
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public db : AngularFireDatabase,
+    public splashScreen: SplashScreen
+    ) {
     this.initializeApp();
   }
 
