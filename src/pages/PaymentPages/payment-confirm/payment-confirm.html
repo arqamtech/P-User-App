@@ -8,35 +8,40 @@
   <div class="image" text-center>
     <img [src]="prod.ImageUrl" ion-text class="image" />
   </div>
-   <!-- Commission 5%
+  <!-- Commission 5%
    Online transaction 3% 
    GST on product 18% -->
-  
+
 
   <ion-card-title> {{prod.Name}}</ion-card-title>
 
-  <ion-item no-lines >
+  <ion-item no-lines>
     <p ion-text color="primary" item-start>Product price</p>
     <p item-end>Rs. {{prod.Price}} x 2 = {{amount}}</p>
 
   </ion-item>
-    <ion-item no-lines >
+  <ion-item no-lines>
     <p ion-text color="primary" item-start>Commission</p>
     <p item-end>Rs. {{disCom}}</p>
 
   </ion-item>
-    <ion-item no-lines >
+  <ion-item no-lines>
     <p ion-text color="primary" item-start>Online transaction</p>
     <p item-end>Rs. {{disTrans}}</p>
 
   </ion-item>
-    <ion-item no-lines >
+  <ion-item no-lines>
     <p ion-text color="primary" item-start>GST</p>
     <p item-end>Rs. {{disGst}}</p>
 
   </ion-item>
 
 
+  <ion-item no-lines>
+    <p ion-text color="primary" item-start>Total</p>
+    <h2 style="font-weight : bold;" item-end>Rs. {{fAmount}}</h2>
+
+  </ion-item>
 
 
 </ion-content>

@@ -11,26 +11,27 @@ import { ProductDisplayPage } from '../../HomePages/product-display/product-disp
 })
 export class YourOrdersPage {
 
-  orders : Array<any> = [];
+  orders: Array<any> = [];
 
   constructor(
-  public navCtrl: NavController, 
-  public db : AngularFireDatabase,
-  public navParams: NavParams
+    public navCtrl: NavController,
+    public db: AngularFireDatabase,
+    public navParams: NavParams
   ) {
     this.getOrders();
   }
 
 
-  
-  getOrders(){
-    this.db.list(`User Data/User Orders/${firebase.auth().currentUser.uid}`).snapshotChanges().subscribe(snap=>{
-      this.orders = [];
-      snap.forEach(snip=>{
-        this.db.object(`Orders/${snip.key}`).snapshotChanges().subscribe(oSnap=>{
-          let temp : any;
-          let veryTemp : any = oSnap.payload.val();
-          this.db.object(`Products/${veryTemp.ProductKey}`).snapshotChanges().subscribe(pSnap=>{
+
+  getOrders() {
+    this.db.list(`User Data/User Orders/${firebase.auth().currentUser.uid}`).snapshotChanges().subscribe(snap => {
+      snap.forEach(snip => {
+        this.db.object(`Orders/${snip.key}`).snapshotChanges().subscribe(oSnap => {
+          let temp: any;
+          let veryTemp: any = oSnap.payload.val();
+          this.orders = [];
+
+          this.db.object(`Products/${veryTemp.ProductKey}`).snapshotChanges().subscribe(pSnap => {
             temp = pSnap.payload.val();
             temp.key = pSnap.key;
             temp.Amount = veryTemp.Amount;
@@ -45,8 +46,8 @@ export class YourOrdersPage {
     })
   }
 
-  gtProductDisplay(p){
-    this.navCtrl.push(ProductDisplayPage),{prod : p};
+  gtProductDisplay(p) {
+    this.navCtrl.push(ProductDisplayPage), { prod: p };
   }
 
 

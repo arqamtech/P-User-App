@@ -12,58 +12,58 @@ import { FaqSPage } from '../../ProfilePages/faq-s/faq-s';
 })
 export class ProfilePage {
 
-  name : string;
+  name: string;
 
   loading = this.loadingCtrl.create({
     spinner: 'crescent',
-    showBackdrop : false,	
+    showBackdrop: false,
   });
 
 
   constructor(
-  public navCtrl: NavController, 
-  public loadingCtrl : LoadingController,
-  public alertCtrl : AlertController,
-  public navParams: NavParams
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
+    public navParams: NavParams
   ) {
   }
 
-    getUser(){
-      firebase.database().ref("User Data/Users").child(firebase.auth().currentUser.uid).once("value",snap=>{
-        this.name = snap.val().Name;
-      })
-    }
+  getUser() {
+    firebase.database().ref("User Data/Users").child(firebase.auth().currentUser.uid).once("value", snap => {
+      this.name = snap.val().Name;
+    })
+  }
 
-signOutConfirm(){
-  let alert = this.alertCtrl.create({
-    title: 'Confirm logout ?',
-    buttons: [
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
+  signOutConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm logout ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Logout',
+          handler: () => {
+            this.signOut();
+          }
         }
-      },
-      {
-        text: 'Logout',
-        handler: () => {
-          this.signOut();
-        }
-      }
-    ]
-  });
-  alert.present();
-}
+      ]
+    });
+    alert.present();
+  }
 
-  signOut(){
+  signOut() {
     this.loading.present();
-    firebase.auth().signOut().then(()=>{
+    firebase.auth().signOut().then(() => {
       this.loading.dismiss();
     });
   }
 
-  gtYourOrders(){this.navCtrl.push(YourOrdersPage)}
-  gtContact(){this.navCtrl.push(ContactUsPage)}
-  gtFaqs(){this.navCtrl.push(FaqSPage)}
+  gtYourOrders() { this.navCtrl.push(YourOrdersPage) }
+  gtContact() { this.navCtrl.push(ContactUsPage) }
+  gtFaqs() { this.navCtrl.push(FaqSPage) }
 }
