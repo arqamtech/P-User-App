@@ -18,6 +18,9 @@ export class SellerProfilePage {
   banner: string;
   products: Array<any> = [];
 
+  lat: string;
+  lon: string;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams
@@ -27,8 +30,12 @@ export class SellerProfilePage {
   }
 
   getSeller() {
-    firebase.database().ref("Seller Data/Sellers").child(this.seller.StoreKey).child("Banner").once("value", itemSnap => {
-      this.banner = itemSnap.val();
+    firebase.database().ref("Seller Data/Sellers").child(this.seller.StoreKey).once("value", itemSnap => {
+      let temp: any = itemSnap.val();
+      this.banner = temp.Banner;
+      this.lon = temp.Longitude;
+      this.lat = temp.Latitude;
+
 
     })
   }
@@ -47,9 +54,13 @@ export class SellerProfilePage {
       })
     })
   }
-  displyProd(p){
-    this.navCtrl.push(ProductDisplayPage,{prod : p})
+  displyProd(p) {
+    this.navCtrl.push(ProductDisplayPage, { prod: p })
   }
 
+  navigate() {
+    console.log(this.lat);
+    console.log(this.lon);
 
+  }
 }
