@@ -1,53 +1,52 @@
-<ion-header>
-  <ion-navbar color="primary" >
+<!-- <ion-header>
+  <ion-navbar color="primary">
     <ion-title>Profile</ion-title>
     <ion-buttons end>
-      <button ion-button clear icon-only color="danger" (click)="signOutConfirm()" >
+      <button ion-button clear icon-only color="danger" (click)="signOutConfirm()">
         <ion-icon name="ios-power"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-</ion-header>
+</ion-header> -->
 
 
 <ion-content padding>
-<ion-card>
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-4>
-          <img src="assets/imgs/blank-user.png" />
-        </ion-col>
-        <ion-col col-8 text-center>
-          <ion-row>
-          <h3 ion-text >{{name}}Mohammed Arqam </h3>
-          </ion-row>
-          <ion-row>
-          <p ion-text>9493726705</p>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
-  </ion-card-content>
-</ion-card>
 
-<ion-list>
-  <ion-item (click)="gtYourOrders()" >
-    Your Orders
-    <ion-icon item-end name="arrow-forward"></ion-icon>
-  </ion-item>
-  <ion-item (click)="gtContact()" >
-    Contact Us
-    <ion-icon item-end name="arrow-forward"></ion-icon>
-  </ion-item>
-  <ion-item (click)="gtFaqs()" >
-    FAQ's
-    <ion-icon item-end name="arrow-forward"></ion-icon>
-  </ion-item>
-</ion-list>
+
+
+  <div class="profileCard">
+
+
+    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" class="prof">
+    <br>
+    <h3 ion-text>{{user.Name}} </h3>
+    <p ion-text> {{user.Phone}} </p>
+    <p ion-text> {{user.Email}} </p>
+
+  </div>
+
+
+
+  <ion-list no-lines>
+    <ion-item (click)="gtYourOrders()">
+      Your Orders
+      <ion-icon item-end name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="gtContact()">
+      Contact Us
+      <ion-icon item-end name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="gtFaqs()">
+      FAQ's
+      <ion-icon item-end name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
 
 
 
 
 </ion-content>
+<ion-footer>
+  <button block ion-button (click)="signOutConfirm()">Sign Out</button>
+</ion-footer>

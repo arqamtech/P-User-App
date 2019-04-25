@@ -13,7 +13,7 @@ import { FaqSPage } from '../../ProfilePages/faq-s/faq-s';
 export class ProfilePage {
 
   name: string;
-
+  user;
   loading = this.loadingCtrl.create({
     spinner: 'crescent',
     showBackdrop: false,
@@ -26,11 +26,12 @@ export class ProfilePage {
     public alertCtrl: AlertController,
     public navParams: NavParams
   ) {
+    this.getUser();
   }
 
   getUser() {
     firebase.database().ref("User Data/Users").child(firebase.auth().currentUser.uid).once("value", snap => {
-      this.name = snap.val().Name;
+      this.user = snap.val();
     })
   }
 
@@ -55,6 +56,7 @@ export class ProfilePage {
     });
     alert.present();
   }
+
 
   signOut() {
     this.loading.present();
