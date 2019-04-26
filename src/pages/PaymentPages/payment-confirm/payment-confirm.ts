@@ -108,7 +108,7 @@ export class PaymentConfirmPage {
   }
   payGate(oKey) {
     var options = {
-      description: "Posters Payment",
+      description: "ALO Payment",
       image: this.prod.ImageUrl,
       currency: 'INR',
       key: 'rzp_test_Op4yX9FbJjMww0',
