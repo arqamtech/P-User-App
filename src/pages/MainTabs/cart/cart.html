@@ -13,8 +13,7 @@
 <ion-content padding>
   <div *ngIf="items.length">
     <ion-item *ngFor="let i of items">
-      <ion-card-title>{{i.Name}}
-        <ion-icon name="ios-trash" color="primary" (click)="delItem(i)" float-right></ion-icon>
+      <ion-card-title class="titletxt">{{i.Name}}
 
       </ion-card-title>
       <ion-item no-lines>
@@ -27,10 +26,19 @@
           <ion-icon name="ios-add-circle-outline" margin-left (click)="addQuan(i)"></ion-icon>
         </div>
       </ion-item>
+
+      <ion-item no-lines>
+        <p class="rate" float-right>₹ {{i.Rate}}</p>
+      </ion-item>
+
+
+      <button ion-button float-left clear (click)="delItem(i)">Remove</button>
+
+
       <button ion-button float-right round (click)="placeOrder(i)">Place Order</button>
     </ion-item>
   </div>
-  <ion-card *ngIf="!items.length" >
+  <ion-card *ngIf="!items.length">
     <ion-card-content>
       <img src="assets/imgs/empty-cart.png" class="emptyCart" />
     </ion-card-content>

@@ -4,43 +4,81 @@
 </ion-header>
 
 
-<ion-content padding>
-  <div class="image" text-center>
-    <img [src]="prod.ImageUrl" ion-text class="image" />
+<ion-content>
+  <div padding>
+
+    <div class="image" text-center>
+      <img [src]="prod.ImageUrl" ion-text class="image" />
+    </div>
+
+    <!-- Start  -->
+
+
+
+
+    <p class="titletxt">{{prod.Name}}</p>
+    <ion-item no-lines>
+      <div class="price" ion-text>₹ {{prod.Price}}</div>
+    </ion-item>
+
+    <div class="tax">Additional tax may apply; charged at checkout</div>
+  </div>
+
+  <div class="bar"></div>
+
+
+
+
+  <div padding>
+
+    <div class="bName">
+      Brand Name :
+      <span class="bNameR" >
+        {{prod.BrandName | uppercase}}
+      </span>
+    </div>
+
+
+    <p class="title">Product Details</p>
+    <p *ngIf="prod.Description" class="des"> {{prod.Description}}</p>
+    <p *ngIf="!prod.Description" class="des"> No Description</p>
+  </div>
+
+  <div class="bar"></div>
+
+
+  <div padding>
+
+    <p class="moreInfo">More Information</p>
+
+    <br>
+    <div class="soldBy">
+      Sold By :
+      <span class="sellerName" (click)="gtSellerPage()">
+        {{prod.StoreName | uppercase}}
+      </span>
+    </div>
+
+
+
   </div>
 
 
-  <ion-card-title> {{prod.Name}}</ion-card-title>
-
-
-  <ion-item no-lines (click)="gtSellerPage()">
-    <p item-start>Seller</p>
-    <p ion-text item-end color="primary">{{prod.StoreName | uppercase}}</p>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked" color="primary">Price</ion-label>
-    <p ion-text>Rs. {{prod.Price}}</p>
-  </ion-item>
 
 
 
 
-  <ion-footer>
-    <button ion-button *ngIf="!inC" block (click)="atCart()">
-      <ion-icon name="md-cart" margin-right></ion-icon>
-      Add to Cart
-    </button>
 
 
-    <button ion-button block *ngIf="inC" (click)="gtCart()">
-      Go to Cart
-      <ion-icon name="md-arrow-forward" margin-left></ion-icon>
-    </button>
-
-  </ion-footer>
+  <button ion-button *ngIf="!inC" block (click)="atCart()">
+    <ion-icon name="md-cart" margin-right></ion-icon>
+    Add to Cart
+  </button>
 
 
-
+  <button ion-button block *ngIf="inC" (click)="gtCart()">
+    Go to Cart
+    <ion-icon name="md-arrow-forward" margin-left></ion-icon>
+  </button>
 
 </ion-content>

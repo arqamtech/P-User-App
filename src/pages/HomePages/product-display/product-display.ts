@@ -14,28 +14,7 @@ import { SellerProfilePage } from '../seller-profile/seller-profile';
 })
 export class ProductDisplayPage {
 
-  prod = {
-    BrandName: "Diseny",
-    Category: "Bays&Kids",
-    CategoryKey: "-LdJxZG5ncDzS2KZMo9K",
-    Color: "Red",
-    ImageUrl: "https://firebasestorage.googleapis.com/v0/b/posters-83a2e.appspot.com/o/Products%2FCd8TWhzPlRgsggwngrHq4QV1fT43%2FSimba%20LMB-RED%20Remote%20Control%20Car%20%20(Red)?alt=media&token=a04d1290-8584-4dc7-b809-639bd7b78cf8",
-    Name: "Simba LMB-RED Remote Control Car  (Red)",
-    Price: "350",
-    Quantity: "4",
-    Sales: "0",
-    Size: "11.5 cm x 7 cm",
-    Status: "Pending",
-    StoreKey: "Cd8TWhzPlRgsggwngrHq4QV1fT43",
-    StoreName: "seeya",
-    SubCategory: { Name: "Toys", TimeStamp: "2019-04-25T20:17:06+05:30", key: "-LdJxjzf-LvXXLNXO4-1" },
-    SubCategoryItem: { Name: "Remote Control Toys", TimeStamp: "2019-04-25T20:17:30+05:30", key: "-LdJxpx8hJVn7k4wfB3x" },
-    SubCategoryItemKey: "-LdJxpx8hJVn7k4wfB3x",
-    SubCategoryKey: "-LdJxjzf-LvXXLNXO4-1",
-    TimeStamp: "2019-04-25T20:22:43+05:30",
-    key: "-LdJz-kAtKoLOxgDf7qd",
-  }
-  // this.navParams.get("prod");
+  prod = this.navParams.get("prod");
   inC: boolean = false;
 
   cartVal: number = 0;

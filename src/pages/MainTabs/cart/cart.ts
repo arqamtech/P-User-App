@@ -18,7 +18,7 @@ export class CartPage {
 
 
   cartVal: number = 0;
-  
+
   loading = this.loadingCtrl.create({
     content: 'Please wait...'
   });
@@ -26,7 +26,7 @@ export class CartPage {
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
-    public loadingCtrl : LoadingController,
+    public loadingCtrl: LoadingController,
     public db: AngularFireDatabase,
     public navParams: NavParams
   ) {
@@ -53,6 +53,7 @@ export class CartPage {
           temp = isnap.payload.val();
           temp.key = isnap.key;
           temp.Quantity = snip.payload.val();
+          temp.Rate = +temp.Quantity * +temp.Price;
           this.items.push(temp);
           this.loading.dismiss();
         })
@@ -61,13 +62,13 @@ export class CartPage {
   }
 
   delItem(i) {
-  
+
     this.loading.present();
 
     let temp: number = parseInt(i.Quantity) * parseInt(i.Price);
     let tCartVal = this.cartVal - temp;
     this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`).set(tCartVal).then(() => {
-      this.db.list(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${i.key}`).remove().then(()=>{
+      this.db.list(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${i.key}`).remove().then(() => {
         let tempMsg = i.Name + " " + "is removed";
         this.presentToast(tempMsg);
         this.loading.dismiss();
@@ -76,19 +77,19 @@ export class CartPage {
   }
   rmQuan(i) {
     this.loading.present();
-    if(i.Quantity){
+    if (i.Quantity) {
       let temp = parseInt(i.Quantity) - 1;
       let tCartVal = this.cartVal - parseInt(i.Price);
       this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${i.key}`).set(temp).then(() => {
         this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`).set(tCartVal);
         this.loading.dismiss();
       });
-    }else{
-      this.db.list(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${i.key}`).remove().then(()=>{
+    } else {
+      this.db.list(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${i.key}`).remove().then(() => {
         let tempMsg = i.Name + " " + "is removed";
         this.presentToast(tempMsg);
         this.loading.dismiss();
-        });
+      });
     }
 
   }
@@ -97,15 +98,16 @@ export class CartPage {
     let temp = parseInt(i.Quantity) + 1;
     let tCartVal = this.cartVal + parseInt(i.Price);
     this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${i.key}`).set(temp).then(() => {
-      this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`).set(tCartVal).then(()=>{
+      this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`).set(tCartVal).then(() => {
+        this.getCart();
         this.loading.dismiss();
       });
     });
   }
 
 
-  placeOrder(i){
-    this.navCtrl.push(PaymentConfirmPage,{prod : i});
+  placeOrder(i) {
+    this.navCtrl.push(PaymentConfirmPage, { prod: i });
   }
 
 

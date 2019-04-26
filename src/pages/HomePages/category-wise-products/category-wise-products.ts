@@ -13,25 +13,26 @@ export class CategoryWiseProductsPage {
   cat = this.navParams.get("cat");
 
   prodRef = this.db.list(`CategoriesWiseProducts/${this.cat.key}`);
-  prods : Array<any>=[];
+  prods: Array<any> = [];
 
   constructor(
-  public navCtrl: NavController, 
-  public db : AngularFireDatabase,
-  public navParams: NavParams
+    public navCtrl: NavController,
+    public db: AngularFireDatabase,
+    public navParams: NavParams
   ) {
     this.getProducts();
-    console.log(this.cat);
   }
 
-  getProducts(){
-    this.prodRef.snapshotChanges().subscribe(snap=>{
+  getProducts() {
+    this.prodRef.snapshotChanges().subscribe(snap => {
       this.prods = [];
-      snap.forEach(snp=>{
-        this.db.object(`Products/${snp.key}`).snapshotChanges().subscribe(pSnap=>{
-          var temp : any = pSnap.payload.val(); 
+      snap.forEach(snp => {
+        this.db.object(`Products/${snp.key}`).snapshotChanges().subscribe(pSnap => {
+          var temp: any = pSnap.payload.val();
           temp.key = pSnap.key;
-          this.prods.push(temp);
+          if (temp.Status == "Verified") {
+            this.prods.push(temp);
+          }
         })
       })
     })
@@ -39,7 +40,7 @@ export class CategoryWiseProductsPage {
   }
 
 
-  displyProd(p){
-    this.navCtrl.push(ProductDisplayPage,{prod : p})
+  displyProd(p) {
+    this.navCtrl.push(ProductDisplayPage, { prod: p })
   }
 }

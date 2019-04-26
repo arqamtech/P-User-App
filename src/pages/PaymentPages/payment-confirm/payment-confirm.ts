@@ -57,11 +57,21 @@ export class PaymentConfirmPage {
     this.db.object(`Admin Data/Comission`).snapshotChanges().subscribe(snap => {
       let tt = snap.payload.val();
       this.comm = +tt;
+
+
+
+
+
       this.disCom = (this.comm * this.amount) / 100;
-      this.disTrans = (3 * this.amount) / 100;
-      this.disGst = (18 * this.amount) / 100;
-      let xtra: number = ((this.comm + 21) / 100) + 1;
-      this.fAmount = this.amount * xtra;
+
+      this.disGst = (18 * (this.amount + this.disCom)) / 100;
+
+
+
+      this.disTrans = (3 * (this.amount + this.disCom + this.disGst)) / 100;
+      // let xtra: number = ((this.comm + 21) / 100) + 1;
+      this.fAmount = this.amount + this.disCom + this.disGst + this.disTrans;
+      this.fAmount = Math.round(this.fAmount * 100) / 100;
     })
   }
 

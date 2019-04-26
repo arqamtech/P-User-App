@@ -17,7 +17,7 @@
 
   <ion-item no-lines>
     <p ion-text color="primary" item-start>Product price</p>
-    <p item-end>Rs. {{prod.Price}} x 2 = {{amount}}</p>
+    <p item-end>Rs. {{prod.Price}} x {{prod.Quantity}} = {{amount | number:'1.0-0'}}</p>
 
   </ion-item>
   <ion-item no-lines>
@@ -25,18 +25,18 @@
     <p item-end>Rs. {{disCom}}</p>
 
   </ion-item>
-  <ion-item no-lines>
-    <p ion-text color="primary" item-start>Online transaction</p>
-    <p item-end>Rs. {{disTrans}}</p>
 
-  </ion-item>
   <ion-item no-lines>
     <p ion-text color="primary" item-start>GST</p>
-    <p item-end>Rs. {{disGst}}</p>
+    <p item-end>Rs. {{disGst | number:'1.0-0'}}</p>
 
   </ion-item>
 
+  <ion-item no-lines>
+    <p ion-text color="primary" item-start>Online transaction</p>
+    <p item-end>Rs. {{disTrans | number:'1.0-0'}}</p>
 
+  </ion-item>
   <ion-item no-lines>
     <p ion-text color="primary" item-start>Total</p>
     <h2 style="font-weight : bold;" item-end>Rs. {{fAmount}}</h2>

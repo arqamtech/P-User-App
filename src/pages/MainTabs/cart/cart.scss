@@ -1,7 +1,21 @@
 page-cart {
-.emptyCart{
+  .emptyCart {
     width: 80%;
     margin: auto;
     height: auto;
-}
+  }
+  .titletxt {
+    padding-bottom: 0px;
+    width: 100%;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: unset;
+    color: #282c3f;
+    margin-bottom: 2px !important;
+  }
+  .rate {
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+  }
 }

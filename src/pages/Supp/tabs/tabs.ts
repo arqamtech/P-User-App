@@ -12,7 +12,7 @@ import { ProductDisplayPage } from '../../HomePages/product-display/product-disp
 })
 export class TabsPage {
 
-  tab1Root = ProductDisplayPage;
+  tab1Root = HomePage;
   tab2Root = ExplorePage;
   tab3Root = NavigatePage;
   tab4Root = CartPage;
