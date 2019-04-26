@@ -1,12 +1,16 @@
 page-home {
-    .swiper-slide {
-        height: 100%;
-        width: auto;
-      }
+  .swiper-slide {
+    height: 100%;
+    width: auto;
+  }
 
-.catCol{
-    border: 1px solid map-get($colors,primary);
+  .catCol {
+    // border: 1px solid map-get($colors, primary);
     height: 100px;
-}
-
+    img{
+        height: 50px;
+        width: auto;
+        margin: auto;
     }
+  }
+}

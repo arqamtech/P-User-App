@@ -18,12 +18,21 @@
 
 
       <ion-col padding-bottom (click)="displyProd(p)" text-center *ngFor="let p of products" col-6>
+
+        <ion-card>
+          <img [src]="p.ImageUrl" class="prodImg" />
+          <ion-card-content>
+            <p>{{p.Name}}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- 
         <ion-card class="prodCard">
           <div class="imgContainer">
             <img [src]="p.ImageUrl" class="cardImg" margin-bottom />
           </div>
           <p margin-top> {{p.Name}}</p>
-        </ion-card>
+        </ion-card> -->
 
 
       </ion-col>

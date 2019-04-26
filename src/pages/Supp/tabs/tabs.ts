@@ -4,6 +4,7 @@ import { ExplorePage } from '../../MainTabs/explore/explore';
 import { NavigatePage } from '../../MainTabs/navigate/navigate';
 import { ProfilePage } from '../../MainTabs/profile/profile';
 import { CartPage } from '../../MainTabs/cart/cart';
+import { ProductDisplayPage } from '../../HomePages/product-display/product-display';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { CartPage } from '../../MainTabs/cart/cart';
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
+  tab1Root = ProductDisplayPage;
   tab2Root = ExplorePage;
   tab3Root = NavigatePage;
   tab4Root = CartPage;
