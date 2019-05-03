@@ -28,6 +28,7 @@ export class SellerProfilePage {
     public db: AngularFireDatabase,
     public navParams: NavParams
   ) {
+    console.log(this.seller);
     this.getSeller();
     this.getProds();
   }

@@ -5,11 +5,42 @@
 </ion-header>
 
 
-<ion-content >
+<ion-content>
 
   <!-- <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
   </ion-searchbar> -->
-  <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel">
-  </ion-searchbar>
+
+
+  <ion-searchbar item-end animated="true" placeholder="Search by name" [(ngModel)]="searchBar"
+    (ionInput)="getItems(searchBar)"></ion-searchbar>
+
+
+  <!-- <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel">
+  </ion-searchbar> -->
+
+  <ion-grid>
+    <ion-row>
+
+
+
+      <ion-col padding-bottom (click)="gtDetails(s)" text-center *ngFor="let s of sellers" col-6>
+
+
+        <ion-card>
+          <img [src]="s.Banner" class="prodImg" />
+          <ion-card-content>
+            <p>{{s.StoreName | uppercase}}</p>
+          </ion-card-content>
+        </ion-card>
+
+
+
+      </ion-col>
+
+
+
+    </ion-row>
+  </ion-grid>
+
 
 </ion-content>

@@ -311,10 +311,10 @@ export class NavigatePage {
     controls: {
       'compass': true,
       'myLocationButton': true,
-      'myLocation': true,   // (blue dot)
+      'myLocation': true,   
       'indoorPicker': true,
-      'zoom': true,          // android only
-      'mapToolbar': true     // android only
+      // 'zoom': true,          
+      // 'mapToolbar': true     
     },
 
     gestures: {
