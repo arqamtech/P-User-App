@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import * as firebase from 'firebase';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import {AngularFireAuthModule} from 'angularfire2/auth';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HomePage } from '../pages/MainTabs/home/home';
 import { TabsPage } from '../pages/Supp/tabs/tabs';
 import { ExplorePage } from '../pages/MainTabs/explore/explore';
@@ -26,6 +26,7 @@ import { ProductDisplayPage } from '../pages/HomePages/product-display/product-d
 import { PaymentGatewayPage } from '../pages/PaymentPages/payment-gateway/payment-gateway';
 import { PaymentConfirmPage } from '../pages/PaymentPages/payment-confirm/payment-confirm';
 import { SellerProfilePage } from '../pages/HomePages/seller-profile/seller-profile';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 
 export const firebaseCred = {
@@ -95,7 +96,8 @@ firebase.initializeApp(firebaseCred);
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    LaunchNavigator,
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

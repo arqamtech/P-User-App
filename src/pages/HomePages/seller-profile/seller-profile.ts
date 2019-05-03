@@ -3,8 +3,29 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { ProductDisplayPage } from '../product-display/product-display';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  GoogleMapOptions,
+  CameraPosition,
+  MarkerOptions,
+  Marker,
+  Environment,
+  MyLocation,
+  GoogleMapsAnimation,
+  Polygon,
+  ILatLng,
+  PolygonOptions,
+  GroundOverlay,
+  LatLngBounds,
+  LatLng,
+  CircleOptions,
+  Circle,
+  MarkerIcon,
 
-
+} from '@ionic-native/google-maps';
 
 
 @IonicPage()
@@ -18,27 +39,35 @@ export class SellerProfilePage {
 
   banner: string;
   products: Array<any> = [];
+  locaArray: Array<any> = [];
+  myLoc: Array<any> = [];
 
-  lat: string;
-  lon: string;
-
+  map: GoogleMap;
 
   constructor(
     public navCtrl: NavController,
     public db: AngularFireDatabase,
-    public navParams: NavParams
+    public navParams: NavParams,
+    private launchNavigator: LaunchNavigator,
   ) {
-    console.log(this.seller);
     this.getSeller();
     this.getProds();
   }
 
+  ionViewDidLoad() {
+    this.map = GoogleMaps.create('map_canvas', this.mapOptions);
+    this.map.getMyLocation()
+      .then((location: MyLocation) => {
+        let temp: any = location.latLng;
+        this.myLoc = temp;
+      });
+  }
   getSeller() {
     firebase.database().ref("Seller Data/Sellers").child(this.seller.StoreKey).once("value", itemSnap => {
       let temp: any = itemSnap.val();
       this.banner = temp.Banner;
-      this.lon = temp.Longitude;
-      this.lat = temp.Latitude;
+      this.locaArray.push(temp.Location.lat);
+      this.locaArray.push(temp.Location.lng);
     })
   }
 
@@ -77,9 +106,59 @@ export class SellerProfilePage {
     this.navCtrl.push(ProductDisplayPage, { prod: p })
   }
 
+
+
+
+
   navigate() {
-    console.log(this.lat);
-    console.log(this.lon);
+    // let options: LaunchNavigatorOptions = {
+    //   start: this.myLoc,
+    // };
+    this.launchNavigator.navigate(this.locaArray, { start: this.myLoc, app: this.launchNavigator.APP.GOOGLE_MAPS })
+      .then(
+        success => console.log('Launched navigator'),
+        error => console.log('Error launching navigator', error)
+      );
 
   }
+  mapOptions: GoogleMapOptions = {
+    controls: {
+      'compass': true,
+      'myLocationButton': true,
+      'myLocation': true,
+      'indoorPicker': true,
+      // 'zoom': true,          
+      // 'mapToolbar': true     
+    },
+
+    gestures: {
+      scroll: true,
+      tilt: true,
+      zoom: true,
+      rotate: true
+    },
+
+    camera: {
+      target: [
+        { lat: 17.4187076, lng: 78.4362371 }
+      ]
+
+    },
+    tilt: 90,
+    preferences: {
+      zoom: {
+        // minZoom: 5,
+        // maxZoom: 25
+      },
+
+      padding: {
+        left: 10,
+        top: 10,
+        bottom: 10,
+        right: 10
+      },
+
+      building: true
+    }
+  };
 }

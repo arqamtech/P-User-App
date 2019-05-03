@@ -34,7 +34,6 @@ export class ExplorePage {
         if (temp.Status == "Verified") {
           tempArray.push(temp);
         }
-        console.log(temp)
       })
       this.sellers = tempArray;
       this.sellersLoaded = tempArray;
@@ -65,7 +64,6 @@ export class ExplorePage {
 
   gtDetails(s) {
     s.StoreKey = s.key;
-    // console.log(s)
     this.navCtrl.push(SellerProfilePage, { seller: s });
   }
 
