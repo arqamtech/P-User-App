@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { ProductDisplayPage } from '../product-display/product-display';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -48,6 +48,7 @@ export class SellerProfilePage {
     public navCtrl: NavController,
     public db: AngularFireDatabase,
     public navParams: NavParams,
+    public platform: Platform,
     private launchNavigator: LaunchNavigator,
   ) {
     this.getSeller();
@@ -58,8 +59,8 @@ export class SellerProfilePage {
     this.map = GoogleMaps.create('map_canvas', this.mapOptions);
     this.map.getMyLocation()
       .then((location: MyLocation) => {
-        let temp: any = location.latLng;
-        this.myLoc = temp;
+        this.myLoc.push(location.latLng.lat)
+        this.myLoc.push(location.latLng.lng)
       });
   }
   getSeller() {
@@ -111,15 +112,14 @@ export class SellerProfilePage {
 
 
   navigate() {
-    // let options: LaunchNavigatorOptions = {
-    //   start: this.myLoc,
-    // };
-    this.launchNavigator.navigate(this.locaArray, { start: this.myLoc, app: this.launchNavigator.APP.GOOGLE_MAPS })
-      .then(
-        success => console.log('Launched navigator'),
-        error => console.log('Error launching navigator', error)
-      );
+    this.platform.ready().then(() => {
 
+      this.launchNavigator.navigate(this.locaArray, { start: this.myLoc, app: this.launchNavigator.APP.GOOGLE_MAPS })
+        .then(
+          success => console.log('Launched navigator'),
+          error => console.log('Error launching navigator', error)
+        );
+    })
   }
   mapOptions: GoogleMapOptions = {
     controls: {
