@@ -42,47 +42,33 @@ export class NavigatePage {
     public db: AngularFireDatabase,
   ) {
     this.getUsers();
-    this.showStores();
-
-
   }
 
   getUsers() {
     this.sellersRef.snapshotChanges().subscribe(snap => {
       let tempArray: Array<any> = [];
       snap.forEach(snp => {
-
         let temp: any = snp.payload.val();
         temp.key = snp.key;
         if (temp.Status) {
           tempArray.push(temp);
         }
-        console.log(temp)
+        this.createMarkers(temp.StoreName, null, temp.Location, temp.Banner, temp.key)
       })
 
       this.sellers = tempArray;
     })
-    this.showStores();
   }
 
 
 
-  showStores() {
-    this.sellers.forEach(seller => {
-      this.createMarkers(seller.StoreName, null, seller.Location, seller.Banner, seller.key)
-    })
-  }
+  // showStores() {
+  //   this.sellers.forEach(seller => {
+  //     this.createMarkers(seller.StoreName, null, seller.Location, seller.Banner, seller.key)
+  //   })
+  // }
 
 
-  addInfoWindowToMarker(marker) {
-    var infoWindowContent = '<div id="content"><h1 id="firstHeading" class="firstHeading">' + marker.title + '</h1></div>';
-    let infoWindow = new google.maps.InfoWindow({
-      content: infoWindowContent
-    });
-    // marker.addListener('click', () => {
-    infoWindow.open(this.map, marker);
-    // });
-  }
 
 
   ionViewDidLoad() {
@@ -103,7 +89,8 @@ export class NavigatePage {
           zoom: 20,
         })
 
-      });
+      })
+
   }
 
 
