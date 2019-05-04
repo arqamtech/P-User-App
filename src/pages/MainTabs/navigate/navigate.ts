@@ -8,21 +8,13 @@ import {
   CameraPosition,
   MarkerOptions,
   Marker,
-  Environment,
   MyLocation,
-  GoogleMapsAnimation,
-  Polygon,
-  ILatLng,
-  PolygonOptions,
-  GroundOverlay,
-  LatLngBounds,
-  LatLng,
-  CircleOptions,
-  Circle,
   MarkerIcon,
-
+  HtmlInfoWindow,
 } from '@ionic-native/google-maps';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { SellerProfilePage } from '../../HomePages/seller-profile/seller-profile';
+declare var google: any
 
 
 @IonicPage()
@@ -46,9 +38,13 @@ export class NavigatePage {
   myLoc: any;
   constructor(
     public toastCtrl: ToastController,
+    public navCtrl: NavController,
     public db: AngularFireDatabase,
   ) {
     this.getUsers();
+    this.showStores();
+
+
   }
 
   getUsers() {
@@ -58,26 +54,35 @@ export class NavigatePage {
 
         let temp: any = snp.payload.val();
         temp.key = snp.key;
-        switch (temp.Status) {
-          case "Unverified": temp.collo = "yellowi";
-            break;
-          case "Verified": temp.collo = "secondary";
-            break;
+        if (temp.Status) {
+          tempArray.push(temp);
         }
-        tempArray.push(temp);
+        console.log(temp)
       })
-      this.sellers = tempArray;
-      console.log(this.sellers);
-    })
 
+      this.sellers = tempArray;
+    })
+    this.showStores();
   }
 
 
 
+  showStores() {
+    this.sellers.forEach(seller => {
+      this.createMarkers(seller.StoreName, null, seller.Location, seller.Banner, seller.key)
+    })
+  }
 
 
-
-
+  addInfoWindowToMarker(marker) {
+    var infoWindowContent = '<div id="content"><h1 id="firstHeading" class="firstHeading">' + marker.title + '</h1></div>';
+    let infoWindow = new google.maps.InfoWindow({
+      content: infoWindowContent
+    });
+    // marker.addListener('click', () => {
+    infoWindow.open(this.map, marker);
+    // });
+  }
 
 
   ionViewDidLoad() {
@@ -91,9 +96,20 @@ export class NavigatePage {
     this.map.getMyLocation()
       .then((location: MyLocation) => {
         // console.log(JSON.stringify(location.latLng));
-        this.navToLoaction("My Location", "", location.latLng)
+        // this.navToLoaction("My Location", "", location.latLng)
+
+        this.map.animateCamera({
+          target: location.latLng,
+          zoom: 20,
+        })
+
       });
   }
+
+
+
+
+
 
 
 
@@ -111,45 +127,93 @@ export class NavigatePage {
     this.map.clear();
   }
 
-  onButtonClick() {
-    this.map.clear();
+  // onButtonClick() {
+  //   this.map.clear();
 
-    // Get the location of you
-    this.map.getMyLocation()
-      .then((location: MyLocation) => {
-        console.log(JSON.stringify(location.latLng));
+  //   // Get the location of you
+  //   this.map.getMyLocation()
+  //     .then((location: MyLocation) => {
+  //       console.log(JSON.stringify(location.latLng));
 
-        // Move the map camera to the location with animation
-        this.map.animateCamera({
-          target: location.latLng,
-          zoom: 20,
-          tilt: 0
-        }).then(() => {
-          // add a marker
-          let marker: Marker = this.map.addMarkerSync({
-            title: '@ionic-native/google-maps plugin!',
-            snippet: 'This plugin is awesome!',
-            position: location.latLng,
-            animation: GoogleMapsAnimation.BOUNCE
-          });
+  //       // Move the map camera to the location with animation
+  //       this.map.animateCamera({
+  //         target: location.latLng,
+  //         zoom: 20,
+  //         tilt: 0
+  //       }).then(() => {
+  //         // add a marker
+  //         let marker: Marker = this.map.addMarkerSync({
+  //           title: '@ionic-native/google-maps plugin!',
+  //           snippet: 'This plugin is awesome!',
+  //           position: location.latLng,
+  //           animation: GoogleMapsAnimation.BOUNCE
+  //         });
 
-          // show the infoWindow
-          marker.showInfoWindow();
+  //         // show the infoWindow
+  //         marker.showInfoWindow();
 
-          // If clicked it, display the alert
-          marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-            this.showToast('clicked!');
-          });
-        });
-      });
+  //         // If clicked it, display the alert
+  //         marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+  //           this.showToast('clicked!');
+  //         });
+  //       });
+  //     });
+  // }
+
+
+  displayStore(id) {
+    let seller = this.sellers.find(snap => {
+      return snap.key == id
+    })
+    seller.StoreKey = seller.key;
+    this.navCtrl.push(SellerProfilePage, { seller: seller })
   }
 
 
 
 
 
+  createMarkers(title, subTit, loc, image, id) {
+    let icin: MarkerIcon = {
+      url: image,
+      size: {
+        width: 100,
+        height: 100
+      }
+    };
 
+    this.map.addMarker({
+      title: title,
+      snippet: subTit,
+      position: loc,
+      icon: icin,
+      id: id,
+    }).then(marker => {
+      marker.on(GoogleMapsEvent.MARKER_CLICK)
+        .subscribe(() => {
+          let title = marker.get("title");
+          let id = marker.get("id");
+          let htmlInfoWindow = new HtmlInfoWindow();
+          let frame: HTMLElement = document.createElement('div');
+          let titleString = '<p class="popTitle">' + title + '</h3> <br>';
+          frame.innerHTML = [
+            titleString,
+            '<button class="popBtn" >View</button>'
+          ].join("");
+          frame.getElementsByTagName("button")[0].addEventListener("click", () => {
+            this.displayStore(id);
+          });
+          htmlInfoWindow.setContent(frame, {
+            width: "100px",
+            height: "70px"
+          });
 
+          marker.hideInfoWindow();
+          htmlInfoWindow.open(marker);
+        });
+    });
+
+  }
 
 
 
@@ -169,8 +233,7 @@ export class NavigatePage {
     this.map.animateCamera({
       target: loc,
       zoom: 30,
-      // tilt: 60,
-      // bearing: 45
+
 
     }).then(() => {
       let marker: Marker = this.map.addMarkerSync({
@@ -178,24 +241,44 @@ export class NavigatePage {
         snippet: subTit,
         position: loc,
         icon: icin,
-        animation: GoogleMapsAnimation.BOUNCE
+        // animation: GoogleMapsAnimation.BOUNCE
       });
-
-
-      let options: CircleOptions = {
-        'center': loc,
-        'radius': 3,
-        'strokeColor': '#AA00FF',
-        'strokeWidth': 5,
-        'fillColor': '#880000'
-      };
-
-      this.map.addCircle(options);
-
       marker.showInfoWindow();
     });
 
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -213,6 +296,7 @@ export class NavigatePage {
 
     toast.present(toast);
   }
+
 
 
   mapStyle = [
@@ -311,7 +395,7 @@ export class NavigatePage {
     controls: {
       'compass': true,
       'myLocationButton': true,
-      'myLocation': true,   
+      'myLocation': true,
       'indoorPicker': true,
       // 'zoom': true,          
       // 'mapToolbar': true     
