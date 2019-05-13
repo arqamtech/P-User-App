@@ -10,7 +10,7 @@
     <img [src]="banner" class="bannerImg" />
   </div>
 
-  <button ion-button clear float-right (click)="navigate()">Navigate to Shop</button>
+  <button ion-button clear float-right (click)="navigate()">Navigate to {{seller.StoreName | uppercase}}</button>
 
   <div style="height: 200px;width: 200px;display: none;" id="map_canvas">
   </div>

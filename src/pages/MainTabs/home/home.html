@@ -16,7 +16,7 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col class="catCol" (click)="showProducts(c)" text-center *ngFor="let c of cats" col-4>
+      <ion-col class="catCol" (click)="showSubCats(c)" text-center *ngFor="let c of cats" col-4>
         <img [src]="c.Image" class="catImage" />
         <p>{{c.Name}}</p>
       </ion-col>

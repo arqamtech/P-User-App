@@ -54,6 +54,7 @@ export class NavigatePage {
           tempArray.push(temp);
         }
         this.createMarkers(temp.StoreName, null, temp.Location, temp.Banner, temp.key)
+
       })
 
       this.sellers = tempArray;
@@ -161,44 +162,48 @@ export class NavigatePage {
 
 
   createMarkers(title, subTit, loc, image, id) {
-    let icin: MarkerIcon = {
-      url: image,
-      size: {
-        width: 100,
-        height: 100
-      }
-    };
 
-    this.map.addMarker({
+    // let title = marker.get("title");
+    // let id = marker.get("id");
+    // let banner = marker.get("banner");
+    let htmlInfoWindow = new HtmlInfoWindow();
+    let frame: HTMLElement = document.createElement('div');
+    let titleString = '<p class="popTitle">' + title + '</h3> <br>';
+    let imageString = '<img class="bannerImg" src=' + image + "/>"
+    frame.innerHTML = [
+      imageString,
+      titleString,
+      '<button class="popBtn" >View</button>'
+    ].join("");
+    frame.getElementsByTagName("button")[0].addEventListener("click", () => {
+      this.displayStore(id);
+    });
+    htmlInfoWindow.setContent(frame, {
+      width: "160px",
+      height: "220px",
+      margin: 0,
+      padding: 0,
+    });
+
+
+    let mark = this.map.addMarker({
       title: title,
       snippet: subTit,
       position: loc,
-      icon: icin,
+      banner: image,
       id: id,
-    }).then(marker => {
-      marker.on(GoogleMapsEvent.MARKER_CLICK)
-        .subscribe(() => {
-          let title = marker.get("title");
-          let id = marker.get("id");
-          let htmlInfoWindow = new HtmlInfoWindow();
-          let frame: HTMLElement = document.createElement('div');
-          let titleString = '<p class="popTitle">' + title + '</h3> <br>';
-          frame.innerHTML = [
-            titleString,
-            '<button class="popBtn" >View</button>'
-          ].join("");
-          frame.getElementsByTagName("button")[0].addEventListener("click", () => {
-            this.displayStore(id);
-          });
-          htmlInfoWindow.setContent(frame, {
-            width: "100px",
-            height: "70px"
-          });
+    })
+    // .then(marker => {
+    // marker.on(GoogleMapsEvent.MARKER_CLICK)
+    //   .subscribe(() => {
+    //     marker.hideInfoWindow();
+    //     htmlInfoWindow.open(marker);
+    //   });
+    // });
+    mark.then(() => {
+      htmlInfoWindow.open(mark);
+    })
 
-          marker.hideInfoWindow();
-          htmlInfoWindow.open(marker);
-        });
-    });
 
   }
 

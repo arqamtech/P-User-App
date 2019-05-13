@@ -39,7 +39,6 @@ export class YourOrdersPage {
             temp.Status = veryTemp.Status;
             temp.TimeStamp = veryTemp.TimeStamp;
             this.orders.push(temp);
-            console.log(temp);
           })
         })
       })

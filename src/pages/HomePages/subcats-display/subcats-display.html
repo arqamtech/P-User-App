@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{cat.Name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="catCol" (click)="showProds(c)" text-center *ngFor="let c of subCats" col-4>
+        <img [src]="c.Image" class="catImage" />
+        <p>{{c.Name}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

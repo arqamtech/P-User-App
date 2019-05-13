@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CategoryWiseProductsPage } from '../../HomePages/category-wise-products/category-wise-products';
+import { SubcatsDisplayPage } from '../../HomePages/subcats-display/subcats-display';
 
 @Component({
   selector: 'page-home',
@@ -43,6 +44,9 @@ export class HomePage {
         this.cats.push(temp)
       })
     })
+  }
+  showSubCats(c){
+    this.navCtrl.push(SubcatsDisplayPage,{cat : c})
   }
   showProducts(c){
     this.navCtrl.push(CategoryWiseProductsPage,{cat : c})

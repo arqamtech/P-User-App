@@ -3,11 +3,21 @@ page-navigate {
     height: 100%;
     width: 100%;
   }
-
+  div {
+    margin: 0;
+    padding: 0;
+  }
   .popTitle {
+    font-size: 13px;
     color: grey;
     text-align: left;
     text-transform: uppercase;
+  }
+  .bannerImg {
+    height: 150px;
+    width: 160px;
+    margin: auto;
+    padding: 0;
   }
   .popBtn {
     border-color: transparent;

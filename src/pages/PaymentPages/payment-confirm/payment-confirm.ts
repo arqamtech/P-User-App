@@ -14,6 +14,9 @@ import moment from 'moment';
 export class PaymentConfirmPage {
 
   prod = this.navParams.get("prod");
+  user;
+
+  pKey: string;
 
   disCom: number;
   disTrans: number;
@@ -21,24 +24,24 @@ export class PaymentConfirmPage {
 
 
   amount: number = 0;
-  cartValueRef = this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`);
+  // cartValueRef = this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`);
   cartVal: number = 0;
 
   comm: number;
   fAmount: number = 0;
 
 
-  name: string = "User";
-  mail: string = "user@samplemail.com";
+  // name: string = "User";
+  // mail: string = "user@samplemail.com";
 
   constructor(
     public navCtrl: NavController,
     public db: AngularFireDatabase,
     public navParams: NavParams
   ) {
-    console.log(this.prod);
     this.amount = parseInt(this.prod.Quantity) * parseInt(this.prod.Price);
-    this.getCartValue();
+    // this.getCartValue();
+    this.getKey();
     this.getComm();
     this.getUser();
   }
@@ -47,11 +50,11 @@ export class PaymentConfirmPage {
   // Online transaction 3% 
   // GST on product 18%
 
-  getCartValue() {
-    this.cartValueRef.snapshotChanges().subscribe(snip => {
-      this.cartVal = +snip.payload.val();
-    })
-  }
+  // getCartValue() {
+  //   this.cartValueRef.snapshotChanges().subscribe(snip => {
+  //     this.cartVal = +snip.payload.val();
+  //   })
+  // }
 
   getComm() {
     this.db.object(`Admin Data/Comission`).snapshotChanges().subscribe(snap => {
@@ -71,7 +74,7 @@ export class PaymentConfirmPage {
       this.disTrans = (3 * (this.amount + this.disCom + this.disGst)) / 100;
       // let xtra: number = ((this.comm + 21) / 100) + 1;
       this.fAmount = this.amount + this.disCom + this.disGst + this.disTrans;
-      this.fAmount = Math.round(this.fAmount * 100) / 100;
+      this.fAmount = Math.ceil(this.fAmount);
     })
   }
 
@@ -82,7 +85,7 @@ export class PaymentConfirmPage {
 
 
 
-    let newCartVal: number = this.cartVal - this.amount;
+    // let newCartVal: number = this.cartVal - this.amount;
 
 
     this.db.list(`Orders`).push({
@@ -97,9 +100,9 @@ export class PaymentConfirmPage {
       this.db.object(`Seller Data/Orders/${this.prod.StoreKey}/Pending/${res.key}`).set(true).then(() => {
         this.db.object(`User Data/User Orders/${firebase.auth().currentUser.uid}/${res.key}`).set(true).then(() => {
           this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/Products/${this.prod.key}`).remove().then(() => {
-            this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`).set(newCartVal).then(() => {
-              this.payGate(tt);
-            })
+            // this.db.object(`User Data/User Cart/${firebase.auth().currentUser.uid}/CartValue`).set(newCartVal).then(() => {
+            this.payGate(tt);
+            // })
           })
         })
       })
@@ -107,17 +110,20 @@ export class PaymentConfirmPage {
 
   }
   payGate(oKey) {
+    let tempAmount = this.fAmount.toFixed(2);
+    console.log(tempAmount)
+    console.log(this.fAmount)
     var options = {
       description: "ALO Payment",
       image: this.prod.ImageUrl,
       currency: 'INR',
-      key: 'rzp_test_Op4yX9FbJjMww0',
-      amount: this.fAmount,
+      key: this.pKey,
+      amount: tempAmount,
       name: this.prod.Name,
       prefill: {
-        email: this.mail,
-        contact: '',
-        name: this.name,
+        email: this.user.Email,
+        contact: this.user.Phone,
+        name: this.user.Name,
       },
       theme: {
         color: '#F37254'
@@ -141,7 +147,7 @@ export class PaymentConfirmPage {
       })
     };
 
-    RazorpayCheckout.open(options, successCallback, cancelCallback);
+    // RazorpayCheckout.open(options, successCallback, cancelCallback);
   }
 
 
@@ -153,12 +159,15 @@ export class PaymentConfirmPage {
 
   getUser() {
     firebase.database().ref("User Data/Users").child(firebase.auth().currentUser.uid).once("value", snap => {
-      this.name = snap.val().Name;
-      console.log(this.name);
-
+      this.user = snap.val();
     })
   }
 
-
+  getKey() {
+    firebase.database().ref("Admin Data").child("PaymentKey").once("value", snap => {
+      this.pKey = snap.val();
+      // console.log(snap.val())
+    })
+  }
 
 }

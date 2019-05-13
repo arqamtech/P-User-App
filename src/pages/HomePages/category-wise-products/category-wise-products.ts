@@ -12,7 +12,7 @@ export class CategoryWiseProductsPage {
 
   cat = this.navParams.get("cat");
 
-  prodRef = this.db.list(`CategoriesWiseProducts/${this.cat.key}`);
+  prodRef = this.db.list(`SubCategoriesWiseProducts/${this.cat.key}`);
   prods: Array<any> = [];
 
   constructor(

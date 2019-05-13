@@ -27,6 +27,7 @@ import { PaymentGatewayPage } from '../pages/PaymentPages/payment-gateway/paymen
 import { PaymentConfirmPage } from '../pages/PaymentPages/payment-confirm/payment-confirm';
 import { SellerProfilePage } from '../pages/HomePages/seller-profile/seller-profile';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { SubcatsDisplayPage } from '../pages/HomePages/subcats-display/subcats-display';
 
 
 export const firebaseCred = {
@@ -61,6 +62,7 @@ firebase.initializeApp(firebaseCred);
     PaymentGatewayPage,
     PaymentConfirmPage,
     SellerProfilePage,
+    SubcatsDisplayPage,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +94,7 @@ firebase.initializeApp(firebaseCred);
     PaymentGatewayPage,
     SellerProfilePage,
     PaymentConfirmPage,
+    SubcatsDisplayPage,
   ],
   providers: [
     StatusBar,

@@ -11,6 +11,10 @@
       <img [src]="prod.ImageUrl" ion-text class="image" />
     </div>
 
+    <ion-item no-lines>
+      <button ion-button (click)="gtSellerPage()" float-right>Go to Store : {{prod.StoreName | uppercase}} </button>
+    </ion-item>
+
     <!-- Start  -->
 
 
@@ -33,7 +37,7 @@
 
     <div class="bName">
       Brand Name :
-      <span class="bNameR" >
+      <span class="bNameR">
         {{prod.BrandName | uppercase}}
       </span>
     </div>
@@ -47,7 +51,7 @@
   <div class="bar"></div>
 
 
-  <div padding>
+  <!-- <div padding>
 
     <p class="moreInfo">More Information</p>
 
@@ -61,7 +65,7 @@
 
 
 
-  </div>
+  </div> -->
 
 
 

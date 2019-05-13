@@ -19,7 +19,6 @@ export class ContactUsPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactUsPage');
   }
 
 }

@@ -1,23 +1,23 @@
 page-explore {
-    .catCol {
-        border: 1px solid map-get($colors, primary);
-        height: 100px;
-      }
-      .prodCard {
-        height: 220px;
-      }
-      .imgContainer {
-        height: 170px;
-      }
-    
-      .cardImg {
-        height: 100%;
-        width: auto;
-        margin: auto;
-      }
-      .prodImg {
-        height: 200px;
-        width: auto;
-        margin: auto;
-      }
+  .catCol {
+    border: 1px solid map-get($colors, primary);
+    height: 100px;
+  }
+  .prodCard {
+    height: 220px;
+  }
+  .imgContainer {
+    height: 170px;
+  }
+
+  .cardImg {
+    height: 100%;
+    width: auto;
+    margin: auto;
+  }
+  .prodImg {
+    height: 150px;
+    width: auto;
+    margin: auto;
+  }
 }

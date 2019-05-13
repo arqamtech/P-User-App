@@ -31,22 +31,21 @@ export class ProductDisplayPage {
     public loadingCtrl: LoadingController,
     public navParams: NavParams
   ) {
-    console.log(this.prod);
 
-    this.getCartValue();
+    // this.getCartValue();
     this.getProdQuantity();
   }
 
-  getCartValue() {
-    this.cartRef.once("value", snip => {
-      if (snip.exists()) {
-        this.cartVal = snip.val();
-      } else {
-        this.cartRef.set(0);
-      }
-    })
+  // getCartValue() {
+  //   this.cartRef.once("value", snip => {
+  //     if (snip.exists()) {
+  //       this.cartVal = snip.val();
+  //     } else {
+  //       this.cartRef.set(0);
+  //     }
+  //   })
 
-  }
+  // }
   getProdQuantity() {
     this.userProdRef.once("value", snip => {
       if (snip.exists()) {
@@ -63,16 +62,15 @@ export class ProductDisplayPage {
     });
 
     loading.present();
-    console.log(this.prodQuan);
     let tempi: number = +this.prodQuan + 1;
 
     this.userProdRef.set(tempi).then(() => {
-      let temp: number = +this.cartVal + parseInt(this.prod.Price);
-      this.cartRef.set(temp).then(() => {
-        this.inC = true;
-      }).then(() => {
-        loading.dismiss();
-      })
+      // let temp: number = +this.cartVal + parseInt(this.prod.Price);
+      // this.cartRef.set(temp).then(() => {
+      // }).then(() => {
+      loading.dismiss();
+      this.inC = true;
+      // })
     })
   }
 
