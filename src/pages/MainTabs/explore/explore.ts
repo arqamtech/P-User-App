@@ -10,6 +10,7 @@ import {
   MyLocation,
   GoogleMap,
 } from '@ionic-native/google-maps';
+import { ProductDisplayPage } from '../../HomePages/product-display/product-display';
 
 @IonicPage()
 @Component({
@@ -130,9 +131,9 @@ export class ExplorePage {
 
 
   gtDetails(s) {
-    // s.StoreKey = s.key;
-    // this.navCtrl.push(ProductDisplayPage, { prod: s });
-    this.navCtrl.push(SellerProfilePage, { seller: s });
+    s.StoreKey = s.key;
+    this.navCtrl.push(ProductDisplayPage, { prod: s });
+    // this.navCtrl.push(SellerProfilePage, { seller: s });
   }
   //Toast Function
   presentToast(msg) {
