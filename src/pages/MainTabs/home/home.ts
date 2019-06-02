@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CategoryWiseProductsPage } from '../../HomePages/category-wise-products/category-wise-products';
 import { SubcatsDisplayPage } from '../../HomePages/subcats-display/subcats-display';
+import * as firebase from 'firebase';
+import { LoginSplashPage } from '../../Auths/login-splash/login-splash';
 
 @Component({
   selector: 'page-home',
@@ -10,45 +12,53 @@ import { SubcatsDisplayPage } from '../../HomePages/subcats-display/subcats-disp
 })
 export class HomePage {
 
-  bannersRef = this.db.list('Promotionals/Banners', ref=>ref.orderByChild("TimeStamp"));
+  bannersRef = this.db.list('Promotionals/Banners', ref => ref.orderByChild("TimeStamp"));
   catRef = this.db.list('Categories');
 
-  banners : Array<any>=[];  
-  cats : Array<any>=[];  
+  banners: Array<any> = [];
+  cats: Array<any> = [];
 
   constructor(
-  public navCtrl: NavController, 
-  public db : AngularFireDatabase,
-  public navParams: NavParams,
+    public navCtrl: NavController,
+    public db: AngularFireDatabase,
+    public navParams: NavParams,
   ) {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        this.navCtrl.setRoot(LoginSplashPage);
+      }
+    })
+
     this.getBanners();
     this.getCats();
+
+
   }
 
-  getBanners(){
-    this.bannersRef.snapshotChanges().subscribe(snap=>{
+  getBanners() {
+    this.bannersRef.snapshotChanges().subscribe(snap => {
       this.banners = [];
-      snap.forEach(snp=>{
-        let temp : any = snp.payload.val();
+      snap.forEach(snp => {
+        let temp: any = snp.payload.val();
         temp.key = snp.key;
         this.banners.push(temp)
       })
     })
   }
-  getCats(){
-    this.catRef.snapshotChanges().subscribe(snap=>{
+  getCats() {
+    this.catRef.snapshotChanges().subscribe(snap => {
       this.cats = [];
-      snap.forEach(snp=>{
-        let temp : any = snp.payload.val();
+      snap.forEach(snp => {
+        let temp: any = snp.payload.val();
         temp.key = snp.key;
         this.cats.push(temp)
       })
     })
   }
-  showSubCats(c){
-    this.navCtrl.push(SubcatsDisplayPage,{cat : c})
+  showSubCats(c) {
+    this.navCtrl.push(SubcatsDisplayPage, { cat: c })
   }
-  showProducts(c){
-    this.navCtrl.push(CategoryWiseProductsPage,{cat : c})
+  showProducts(c) {
+    this.navCtrl.push(CategoryWiseProductsPage, { cat: c })
   }
 }

@@ -14,8 +14,9 @@ import {
 } from '@ionic-native/google-maps';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { SellerProfilePage } from '../../HomePages/seller-profile/seller-profile';
+import { LoginSplashPage } from '../../Auths/login-splash/login-splash';
 declare var google: any
-
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -28,7 +29,8 @@ export class NavigatePage {
   sellersRef = this.db.list('Seller Data/Sellers', ref => ref.orderByChild("TimeStamp"));
   sellers: Array<any> = [];
 
-
+  sellersLoaded: Array<any> = [];
+  disSearch: boolean = false;
   map: GoogleMap;
   gvk: any = { "lat": 17.4195773, "lng": 78.448375 };
   home: any = { "lat": 17.3512655, "lng": 78.5045693 };
@@ -41,6 +43,12 @@ export class NavigatePage {
     public navCtrl: NavController,
     public db: AngularFireDatabase,
   ) {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        this.navCtrl.setRoot(LoginSplashPage);
+      }
+    })
+
     this.getUsers();
   }
 
@@ -50,17 +58,47 @@ export class NavigatePage {
       snap.forEach(snp => {
         let temp: any = snp.payload.val();
         temp.key = snp.key;
-        if (temp.Status) {
+        if (temp.Status == "Verified") {
+          if (temp.FeaturedProduct) {
+            firebase.database().ref("Products").child(temp.FeaturedProduct).once("value", snap => {
+              temp.disImage = snap.val().ImageUrl;
+            })
+          } else {
+            temp.disImage = temp.Banner;
+          }
+
+
           tempArray.push(temp);
         }
-        this.createMarkers(temp.StoreName, null, temp.Location, temp.Banner, temp.key)
+        this.createMarkers(temp.StoreName, null, temp.Location, temp.disImage, temp.key)
 
       })
 
       this.sellers = tempArray;
+      this.sellersLoaded = tempArray;
     })
   }
 
+  initializeItems(): void {
+    this.sellers = this.sellersLoaded;
+  }
+  getItems(searchbar) {
+    this.initializeItems();
+    let q = searchbar;
+    if (!q) {
+      this.disSearch = false;
+      return;
+    }
+    this.disSearch = true;
+    this.sellers = this.sellers.filter((v) => {
+      if ((v.StoreName) && q) {
+        if (v.StoreName.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+          return true;
+        }
+        return false;
+      }
+    });
+  }
 
 
   // showStores() {
@@ -69,7 +107,12 @@ export class NavigatePage {
   //   })
   // }
 
-
+  selectS(s) {
+    this.map.animateCamera({
+      target: s.Location,
+      zoom: 15,
+    })
+  }
 
 
   ionViewDidLoad() {
@@ -166,43 +209,86 @@ export class NavigatePage {
     // let title = marker.get("title");
     // let id = marker.get("id");
     // let banner = marker.get("banner");
-    let htmlInfoWindow = new HtmlInfoWindow();
-    let frame: HTMLElement = document.createElement('div');
-    let titleString = '<p class="popTitle">' + title + '</h3> <br>';
-    let imageString = '<img class="bannerImg" src=' + image + "/>"
-    frame.innerHTML = [
-      imageString,
-      titleString,
-      '<button class="popBtn" >View</button>'
-    ].join("");
-    frame.getElementsByTagName("button")[0].addEventListener("click", () => {
-      this.displayStore(id);
-    });
-    htmlInfoWindow.setContent(frame, {
-      width: "160px",
-      height: "220px",
-      margin: 0,
-      padding: 0,
-    });
+    // let htmlInfoWindow = new HtmlInfoWindow();
+    // let frame: HTMLElement = document.createElement('div');
+    // let titleString = '<p class="popTitle">' + title + '</h3> <br>';
+    // let imageString = '<img class="bannerImg" src=' + image + "/>"
+    // frame.innerHTML = [
+    //   imageString,
+    //   titleString,
+    //   '<button class="popBtn" >View</button>'
+    // ].join("");
+    // frame.getElementsByTagName("button")[0].addEventListener("click", () => {
+    //   this.displayStore(id);
+    // });
+    // htmlInfoWindow.setContent(frame, {
+    //   width: "160px",
+    //   height: "220px",
+    //   margin: 0,
+    //   padding: 0,
+    // });
 
 
-    let mark = this.map.addMarker({
+    // let mark = this.map.addMarker({
+    //   title: title,
+    //   snippet: subTit,
+    //   position: loc,
+    //   banner: image,
+    //   id: id,
+    // }).then(marker => {
+    //   marker.on(GoogleMapsEvent.MARKER_CLICK)
+    //     .subscribe(() => {
+    //       marker.hideInfoWindow();
+    //       htmlInfoWindow.open(marker);
+    //     });
+    // });
+
+
+
+
+    let icin: MarkerIcon = {
+      url: image,
+      size: {
+        width: 100,
+        height: 100
+      }
+    };
+
+    this.map.addMarker({
       title: title,
       snippet: subTit,
       position: loc,
-      banner: image,
+      icon: icin,
       id: id,
-    })
-    // .then(marker => {
-    // marker.on(GoogleMapsEvent.MARKER_CLICK)
-    //   .subscribe(() => {
-    //     marker.hideInfoWindow();
-    //     htmlInfoWindow.open(marker);
-    //   });
-    // });
-    mark.then(() => {
-      htmlInfoWindow.open(mark);
-    })
+    }).then(marker => {
+      marker.on(GoogleMapsEvent.MARKER_CLICK)
+        .subscribe(() => {
+          let title = marker.get("title");
+          let id = marker.get("id");
+          let htmlInfoWindow = new HtmlInfoWindow();
+          let frame: HTMLElement = document.createElement('div');
+          let titleString = '<p class="popTitle">' + title + '</h3> <br>';
+          let imageString = '<img class="bannerImg" src=' + image + "/>"
+          frame.innerHTML = [
+            imageString,
+            titleString,
+            '<button class="popBtn" >View</button>'
+          ].join("");
+          frame.getElementsByTagName("button")[0].addEventListener("click", () => {
+            this.displayStore(id);
+          });
+          htmlInfoWindow.setContent(frame, {
+            width: "160px",
+            height: "220px",
+            margin: 0,
+            padding: 0,
+          });
+
+          marker.hideInfoWindow();
+          htmlInfoWindow.open(marker);
+        });
+    });
+
 
 
   }
@@ -239,44 +325,6 @@ export class NavigatePage {
     });
 
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   showToast(message: string) {

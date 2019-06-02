@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { ProductDisplayPage } from '../product-display/product-display';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -49,6 +49,7 @@ export class SellerProfilePage {
     public db: AngularFireDatabase,
     public navParams: NavParams,
     public platform: Platform,
+    public alertCtrl: AlertController,
     private launchNavigator: LaunchNavigator,
   ) {
     this.getSeller();
@@ -109,7 +110,7 @@ export class SellerProfilePage {
 
 
 
-
+ 
 
   navigate() {
     this.platform.ready().then(() => {

@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import { YourOrdersPage } from '../../ProfilePages/your-orders/your-orders';
 import { ContactUsPage } from '../../ProfilePages/contact-us/contact-us';
 import { FaqSPage } from '../../ProfilePages/faq-s/faq-s';
+import { LoginSplashPage } from '../../Auths/login-splash/login-splash';
 
 @IonicPage()
 @Component({
@@ -26,6 +27,12 @@ export class ProfilePage {
     public alertCtrl: AlertController,
     public navParams: NavParams
   ) {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        this.navCtrl.setRoot(LoginSplashPage);
+      }
+    })
+
     this.getUser();
   }
 

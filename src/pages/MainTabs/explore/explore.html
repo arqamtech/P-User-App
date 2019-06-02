@@ -9,7 +9,7 @@
 
 
 
-  <ion-searchbar item-end animated="true" placeholder="Search by name" [(ngModel)]="searchBar"
+  <ion-searchbar item-end animated="true" placeholder="Search by Product Name" [(ngModel)]="searchBar"
     (ionInput)="getItems(searchBar)"></ion-searchbar>
 
 
@@ -19,12 +19,15 @@
 
 
 
-      <ion-col padding-bottom (click)="gtDetails(p)" text-center *ngFor="let p of prods" col-6>
+      <ion-col padding-bottom text-center *ngFor="let p of prods" col-6>
 
 
         <ion-card>
+          <button ion-button clear icon-only (click)="navToStore(p)" class="navBtn">
+            <ion-icon name="navigate"></ion-icon>
+          </button>
           <img [src]="p.ImageUrl" class="prodImg" />
-          <ion-card-content>
+          <ion-card-content (click)="gtDetails(p)">
             <p>{{p.Name}}</p>
           </ion-card-content>
         </ion-card>

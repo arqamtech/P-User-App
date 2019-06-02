@@ -1,4 +1,14 @@
 <div style="height: 100%;width: 100%" id="map_canvas">
 
+  <ion-searchbar item-end animated="true" placeholder="Search by Store Name" [(ngModel)]="searchBar"
+    (ionInput)="getItems(searchBar)"></ion-searchbar>
+
+  <ion-card *ngIf="disSearch">
+    <ion-card-content>
+      <ion-item *ngFor="let s of sellers;let i=index;" (click)="selectS(s)">
+        <p *ngIf="i<3">{{s.StoreName | uppercase}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
   <!-- <button ion-button clear (click)="showStores()">View All Stores</button> -->
 </div>

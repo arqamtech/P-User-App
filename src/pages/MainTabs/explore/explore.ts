@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { SellerProfilePage } from '../../HomePages/seller-profile/seller-profile';
 import * as firebase from 'firebase';
-import { ProductDisplayPage } from '../../HomePages/product-display/product-display';
+import { LoginSplashPage } from '../../Auths/login-splash/login-splash';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import {
+  GoogleMaps,
+  MyLocation,
+  GoogleMap,
+} from '@ionic-native/google-maps';
 
 @IonicPage()
 @Component({
@@ -13,16 +19,28 @@ import { ProductDisplayPage } from '../../HomePages/product-display/product-disp
 export class ExplorePage {
 
   // sellersRef = this.db.list('Seller Data/Sellers', ref => ref.orderByChild("TimeStamp"));
+  sellersRef = this.db.list('Seller Data/Sellers', ref => ref.orderByChild("TimeStamp"));
+  myLoc: Array<any> = [];
 
   prods: Array<any> = [];
 
   prodsLoaded: Array<any> = [];
+  map: GoogleMap;
 
   constructor(
     public navCtrl: NavController,
     public db: AngularFireDatabase,
+    public platform: Platform,
+    private launchNavigator: LaunchNavigator,
+    public toastCtrl: ToastController,
     public navParams: NavParams
   ) {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        this.navCtrl.setRoot(LoginSplashPage);
+      }
+    })
+
     this.getSellers();
   }
 
@@ -36,15 +54,60 @@ export class ExplorePage {
         if (temp.Status == "Verified") {
           tempArray.push(temp);
         }
-        console.log(temp);
-
       })
       this.prods = tempArray;
       this.prodsLoaded = tempArray;
     })
+
+    // this.sellersRef.snapshotChanges().subscribe(snap => {
+    //   let tempArray: Array<any> = [];
+    //   snap.forEach(snp => {
+
+    //     let temp: any = snp.payload.val();
+    //     temp.StoreKey = snp.key;
+
+    // switch (temp.Status) {
+    //   case "Unverified": temp.collo = "yellowi";
+    //     break;
+    //   case "Verified": temp.collo = "secondary";
+    //     break;
+    // }
+    //     if (temp.Status == "Verified") {
+    //       tempArray.push(temp);
+    //     }
+    //   })
+    //   this.sellers = tempArray;
+    //   this.sellersLoaded = tempArray;
+    // })
+
   }
 
+  navToStore(p) {
+    this.map = GoogleMaps.create('map_canvas');
 
+    this.map.getMyLocation()
+      .then((location: MyLocation) => {
+        this.myLoc.push(location.latLng.lat)
+        this.myLoc.push(location.latLng.lng)
+      });
+
+
+    firebase.database().ref("Seller Data/Sellers").child(p.StoreKey).once("value", snap => {
+      let streLoc: Array<any> = [];
+      streLoc.push(snap.val().Location.lat);
+      streLoc.push(snap.val().Location.lng);
+      // console.log(streLoc)
+      this.platform.ready().then(() => {
+
+        this.launchNavigator.navigate(streLoc, { start: this.myLoc, app: this.launchNavigator.APP.GOOGLE_MAPS })
+          .then(
+            success => this.presentToast('Launched navigator'),
+            error => this.presentToast('Error launching navigator' + "" + error)
+          );
+      })
+
+    })
+  }
 
   initializeItems(): void {
     this.prods = this.prodsLoaded;
@@ -68,7 +131,18 @@ export class ExplorePage {
 
   gtDetails(s) {
     // s.StoreKey = s.key;
-    this.navCtrl.push(ProductDisplayPage, { prod: s });
+    // this.navCtrl.push(ProductDisplayPage, { prod: s });
+    this.navCtrl.push(SellerProfilePage, { seller: s });
+  }
+  //Toast Function
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      position: "top",
+      duration: 4000,
+      showCloseButton: false,
+    });
+    toast.present();
   }
 
 }
