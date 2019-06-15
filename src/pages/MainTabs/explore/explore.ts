@@ -11,6 +11,7 @@ import {
   GoogleMap,
 } from '@ionic-native/google-maps';
 import { ProductDisplayPage } from '../../HomePages/product-display/product-display';
+import { NavToSingleStorePage } from '../../ExplorePages/nav-to-single-store/nav-to-single-store';
 
 @IonicPage()
 @Component({
@@ -107,8 +108,12 @@ export class ExplorePage {
       //       );
       //   })
 
+      let temp = snap.val();
+      temp.StoreKey = snap.key;
 
-      this.navCtrl.parent.select(2, { expSeller: snap.val() })
+      this.navCtrl.push(NavToSingleStorePage, { expSeller: temp })
+
+      // this.navCtrl.parent.select(2, { expSeller: snap.val() })
     })
 
   }
