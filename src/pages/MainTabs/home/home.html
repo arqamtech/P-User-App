@@ -6,7 +6,7 @@
 
 <ion-content>
 
-  <div class="wrapper">
+  <div class="wrapper" padding>
     <ion-slides *ngIf="banners && banners.length" autoplay="3000" loop="true" speed="500" pager="true">
       <ion-slide *ngFor="let b of banners">
         <img [src]="b.Image" class="bannerImg" />

@@ -37,10 +37,14 @@ export class NavigatePage {
   inox: any = { "lat": 17.3906644, "lng": 78.4884251 };
 
 
+  exploreNavS = this.navParams.get("expSeller");
+
+
   myLoc: any;
   constructor(
     public toastCtrl: ToastController,
     public navCtrl: NavController,
+    public navParams: NavParams,
     public db: AngularFireDatabase,
   ) {
     firebase.auth().onAuthStateChanged((user) => {
@@ -193,6 +197,7 @@ export class NavigatePage {
 
 
   displayStore(id) {
+    this.getItems("");
     let seller = this.sellers.find(snap => {
       return snap.key == id
     })
@@ -250,7 +255,7 @@ export class NavigatePage {
       url: image,
       size: {
         width: 100,
-        height: 100
+        height: 100,
       }
     };
 
@@ -265,6 +270,7 @@ export class NavigatePage {
         .subscribe(() => {
           let title = marker.get("title");
           let id = marker.get("id");
+          // let banner = marker.get("banner");
           let htmlInfoWindow = new HtmlInfoWindow();
           let frame: HTMLElement = document.createElement('div');
           let titleString = '<p class="popTitle">' + title + '</h3> <br>';
@@ -275,11 +281,12 @@ export class NavigatePage {
             '<button class="popBtn" >View</button>'
           ].join("");
           frame.getElementsByTagName("button")[0].addEventListener("click", () => {
+
             this.displayStore(id);
           });
           htmlInfoWindow.setContent(frame, {
-            width: "160px",
-            height: "220px",
+            width: "100px",
+            height: "200px",
             margin: 0,
             padding: 0,
           });

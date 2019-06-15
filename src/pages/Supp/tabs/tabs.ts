@@ -15,6 +15,7 @@ export class TabsPage {
   tab1Root = HomePage;
   tab2Root = ExplorePage;
   tab3Root = NavigatePage;
+  tab3Params = { expSeller: "miniture" };
   tab4Root = CartPage;
   tab5Root = ProfilePage;
 

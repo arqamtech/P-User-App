@@ -35,6 +35,8 @@ export class HomePage {
 
   }
 
+
+
   getBanners() {
     this.bannersRef.snapshotChanges().subscribe(snap => {
       this.banners = [];

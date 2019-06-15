@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>{{seller.StoreName | uppercase}}</ion-title>
+  <ion-navbar>
+    <button ion-button color="dark" round outline>{{seller.StoreName | uppercase}}</button>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <div class="bannerHolder">
+  <div class="bannerHolder" padding>
     <img [src]="banner" class="bannerImg" />
   </div>
 
@@ -24,10 +24,11 @@
       <ion-col padding-bottom (click)="displyProd(p)" text-center *ngFor="let p of products" col-6>
 
         <ion-card>
-          <button ion-button small class="featuredBtn" *ngIf="p.Featured" >Featured</button>
+          <button ion-button small class="featuredBtn" *ngIf="p.Featured">Featured</button>
           <img [src]="p.ImageUrl" class="prodImg" />
           <ion-card-content>
-            <p>{{p.Name}}</p>
+            <p ion-text float-left>{{p.BrandName | uppercase}}</p>
+            <p ion-text float-right color="primary">₹ {{p.Price}}</p>
           </ion-card-content>
         </ion-card>
 

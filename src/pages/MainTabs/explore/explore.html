@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar>
     <ion-title>Explore</ion-title>
   </ion-navbar>
 </ion-header>
@@ -28,7 +28,8 @@
           </button>
           <img [src]="p.ImageUrl" class="prodImg" />
           <ion-card-content (click)="gtDetails(p)">
-            <p>{{p.Name}}</p>
+            <p ion-text float-left>{{p.BrandName | uppercase}}</p>
+            <p ion-text float-right color="primary">₹ {{p.Price}}</p>
           </ion-card-content>
         </ion-card>
 

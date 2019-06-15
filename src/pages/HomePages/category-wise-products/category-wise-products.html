@@ -26,7 +26,8 @@
         <ion-card>
           <img [src]="p.ImageUrl" class="prodImg" />
           <ion-card-content>
-            <p>{{p.Name}}</p>
+            <p ion-text float-left>{{p.BrandName | uppercase}}</p>
+            <p ion-text float-right color="primary">₹ {{p.Price}}</p>
           </ion-card-content>
         </ion-card>
 

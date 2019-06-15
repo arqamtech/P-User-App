@@ -84,30 +84,33 @@ export class ExplorePage {
   }
 
   navToStore(p) {
-    this.map = GoogleMaps.create('map_canvas');
+    // this.map = GoogleMaps.create('map_canvas');
 
-    this.map.getMyLocation()
-      .then((location: MyLocation) => {
-        this.myLoc.push(location.latLng.lat)
-        this.myLoc.push(location.latLng.lng)
-      });
+    // this.map.getMyLocation()
+    //   .then((location: MyLocation) => {
+    //     this.myLoc.push(location.latLng.lat)
+    //     this.myLoc.push(location.latLng.lng)
+    //   });
 
 
     firebase.database().ref("Seller Data/Sellers").child(p.StoreKey).once("value", snap => {
-      let streLoc: Array<any> = [];
-      streLoc.push(snap.val().Location.lat);
-      streLoc.push(snap.val().Location.lng);
-      // console.log(streLoc)
-      this.platform.ready().then(() => {
+      //   let streLoc: Array<any> = [];
+      //   streLoc.push(snap.val().Location.lat);
+      //   streLoc.push(snap.val().Location.lng);
+      //   // console.log(streLoc)
+      //   this.platform.ready().then(() => {
 
-        this.launchNavigator.navigate(streLoc, { start: this.myLoc, app: this.launchNavigator.APP.GOOGLE_MAPS })
-          .then(
-            success => this.presentToast('Launched navigator'),
-            error => this.presentToast('Error launching navigator' + "" + error)
-          );
-      })
+      //     this.launchNavigator.navigate(streLoc, { start: this.myLoc, app: this.launchNavigator.APP.GOOGLE_MAPS })
+      //       .then(
+      //         success => this.presentToast('Launched navigator'),
+      //         error => this.presentToast('Error launching navigator' + "" + error)
+      //       );
+      //   })
 
+
+      this.navCtrl.parent.select(2, { expSeller: snap.val() })
     })
+
   }
 
   initializeItems(): void {

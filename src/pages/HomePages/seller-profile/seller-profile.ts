@@ -83,6 +83,7 @@ export class SellerProfilePage {
           if (temp.Status == "Verified") {
             this.products.push(temp);
           }
+          console.log(temp)
         })
       })
     })
@@ -110,7 +111,7 @@ export class SellerProfilePage {
 
 
 
- 
+
 
   navigate() {
     this.platform.ready().then(() => {
