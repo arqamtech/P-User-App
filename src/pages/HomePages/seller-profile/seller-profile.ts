@@ -26,6 +26,7 @@ import {
   MarkerIcon,
 
 } from '@ionic-native/google-maps';
+import { NavToSingleStorePage } from '../../ExplorePages/nav-to-single-store/nav-to-single-store';
 
 
 @IonicPage()
@@ -110,6 +111,13 @@ export class SellerProfilePage {
   }
 
 
+  navToStore(p) {
+    firebase.database().ref("Seller Data/Sellers").child(p.StoreKey).once("value", snap => {
+      let temp = snap.val();
+      temp.StoreKey = snap.key;
+      this.navCtrl.push(NavToSingleStorePage, { expSeller: temp })
+    })
+  }
 
 
 

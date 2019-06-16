@@ -1,6 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Faq's</ion-title>
+  <ion-navbar color="light">    <ion-title>Faq's</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -9,8 +8,7 @@
   <div class="mainCard">
 
     <ion-card *ngFor="let q of faqs">
-      <ion-navbar color="primary">
-        <ion-title>{{q.Question}}</ion-title>
+      <ion-navbar color="light">        <ion-title>{{q.Question}}</ion-title>
       </ion-navbar>
       <ion-card-content>
         <h2>{{q.Answer}}</h2>

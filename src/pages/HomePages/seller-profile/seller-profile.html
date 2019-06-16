@@ -25,6 +25,9 @@
 
         <ion-card>
           <button ion-button small class="featuredBtn" *ngIf="p.Featured">Featured</button>
+          <button ion-button clear icon-only (click)="navToStore(p)" class="navBtn">
+            <ion-icon name="md-pin"></ion-icon>
+          </button>
           <img [src]="p.ImageUrl" class="prodImg" />
           <ion-card-content>
             <p ion-text float-left>{{p.BrandName | uppercase}}</p>

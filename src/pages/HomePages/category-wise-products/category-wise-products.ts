@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ProductDisplayPage } from '../product-display/product-display';
+import { NavToSingleStorePage } from '../../ExplorePages/nav-to-single-store/nav-to-single-store';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -39,6 +41,13 @@ export class CategoryWiseProductsPage {
 
   }
 
+  navToStore(p) {
+    firebase.database().ref("Seller Data/Sellers").child(p.StoreKey).once("value", snap => {
+      let temp = snap.val();
+      temp.StoreKey = snap.key;
+      this.navCtrl.push(NavToSingleStorePage, { expSeller: temp })
+    })
+  }
 
   displyProd(p) {
     this.navCtrl.push(ProductDisplayPage, { prod: p })
